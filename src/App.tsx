@@ -7,7 +7,7 @@ function App() {
   return (
     <div className="flex flex-column">
       <h2>Welcome to Tokify</h2>
-      <div>
+      <div className="flex flex-column overflow-auto">
         <Tokify></Tokify>
       </div>
 
