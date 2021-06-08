@@ -10,7 +10,6 @@ function App() {
       <div className="flex flex-column overflow-auto">
         <Tokify></Tokify>
       </div>
-
     </div>
   );
 }
