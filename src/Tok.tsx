@@ -19,14 +19,8 @@ function Tok(props: any) {
     <div>
       <Card>
         <CardHeader
-          avatar={<Avatar aria-label="recipe">
-            R
-          </Avatar>
-          }
-          action={
-            <IconButton aria-label="settings">
-            </IconButton>
-          }
+          avatar={<Avatar aria-label="recipe">R</Avatar>}
+          action={<IconButton aria-label="settings"></IconButton>}
           title={props.tiktok.name}
           subheader={props.tiktok.desc}
         />
