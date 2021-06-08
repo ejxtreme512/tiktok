@@ -23,14 +23,15 @@ function Tokify() {
     }
     useEffect(() => {
         // fetch('http://127.0.0.1:5000/trending').then(resp => resp.json().then(res => setToks(res)));
-        const toks = [{name: 'abc', desc: 'this is the description', id:1}, {name: 'def', desc: 'lol', id:2}];
+        const toks = [{ name: 'abc', desc: 'this is the description', id: 1 }, { name: 'def', desc: 'lol', id: 2 }];
         setToks(toks);
-        setFilteredToks(toks);
     }, []);
-
     useEffect(() => {
         setFilteredToks(searchToks(searchTerm, toks));
-    }, [searchTerm])
+    }, [searchTerm]);
+    useEffect(() => {
+        setFilteredToks(toks);
+    }, [toks]);
     return (
         <div className='flex flex-column tokify overflow-auto'>
             <h3>Trending</h3>
