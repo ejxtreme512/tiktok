@@ -26,7 +26,7 @@ function TokBrowser(props: {toks: Tiktok[], title: string}) {
         <div className='flex flex-column tok-browser overflow-auto'>
             <h3>{props.title}</h3>
             <div>
-                <TextField id="txtSearch" label="Search" value={searchTerm} onChange={handleSearch} variant="outlined" />
+                <TextField id="txtSearch" label="Filter By Description" value={searchTerm} onChange={handleSearch} variant="outlined" />
             </div>
             <div className='flex-column overflow-auto margin-left-auto margin-right-auto'>
                 {filteredToks.map((tok, index) => (
@@ -35,7 +35,6 @@ function TokBrowser(props: {toks: Tiktok[], title: string}) {
                         <Divider />
                     </div>
                 ))}
-                <Divider />
             </div>
         </div>
     );
