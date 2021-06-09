@@ -30,7 +30,7 @@ export interface Tiktok {
             "stickerType": 4
         }
     ],
-    "stitchEnabled": true,
+    "stitchEnabled": boolean,
     "video": {
         "bitrate": 499097,
         "cover": "https://p16-sign-sg.tiktokcdn.com/obj/tos-alisg-p-0037/7d6868635eed458ca14d1314cc9da1ef?x-expires=1623218400&x-signature=J7a%2FOYEEWU%2FajaMO0EtcU3fLKC4%3D",
@@ -61,20 +61,20 @@ export interface Author {
     "avatarLarger": string
     "avatarMedium": string,
     "avatarThumb": string;
-    "commentSetting": 0,
-    "duetSetting": 0,
-    "ftc": false,
-    "id": "6551685763258580994",
-    "nickname": "TMM_SamiR",
-    "openFavorite": false,
-    "privateAccount": false,
-    "relation": 0,
-    "secUid": "MS4wLjABAAAAFgb1DcISegB2Cs9u_Cf7OlTo9jJC6Av3gBAM-ADPmaKzNc1vj3Hdjcr8aCFvw5Cv",
-    "secret": false,
+    "commentSetting": number,
+    "duetSetting": number,
+    "ftc": boolean,
+    "id": string,
+    "nickname": string,
+    "openFavorite": boolean,
+    "privateAccount": boolean,
+    "relation": number,
+    "secUid": string,
+    "secret": boolean,
     "signature": string
     "stitchSetting": number,
-    "uniqueId": "samirbae8",
-    "verified": false
+    "uniqueId": string,
+    "verified": boolean
 }
 
 export interface Music {
