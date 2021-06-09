@@ -62,3 +62,8 @@
 .pad-10 {
   padding: 10px;
 }
+
+.auto-height {
+  height: 300px;
+  max-height:500px;
+}
