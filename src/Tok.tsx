@@ -4,7 +4,7 @@ import { useState } from 'react';
 import Card from '@material-ui/core/Card';
 import Avatar from '@material-ui/core/Avatar';
 import IconButton from '@material-ui/core/IconButton';
-
+import { Share, Favorite, MoreVert, Save } from '@material-ui/icons';
 const useStyles = makeStyles({
   root: {
     maxWidth: 345,
@@ -12,7 +12,6 @@ const useStyles = makeStyles({
 });
 
 function Tok(props: any) {
-  // Declare a new state variable, which we'll call "count"
   const [count, setCount] = useState(0);
 
   return (
@@ -20,21 +19,21 @@ function Tok(props: any) {
       <Card>
         <CardHeader
           avatar={<Avatar aria-label="recipe">R</Avatar>}
-          action={<IconButton aria-label="settings"></IconButton>}
+          action={<IconButton aria-label="settings"><MoreVert /></IconButton>}
           title={props.tiktok.name}
           subheader={props.tiktok.desc}
         />
 
         <CardActions>
-          <Button size="small" color="primary">
-            Share
-        </Button>
-          <Button size="small" color="primary" onClick={() => { downloadTok(props.tiktok.id) }}>
-            Download
-        </Button>
-          <Button size="small" color="primary">
-            Favorite
-        </Button>
+          <IconButton color="primary" aria-label="Save" onClick={() => { downloadTok(props.tiktok.id) }}>
+            <Save />
+          </IconButton>
+          <IconButton aria-label="Share link">
+            <Share />
+          </IconButton>
+          <IconButton aria-label="Add to favorites">
+            <Favorite />
+          </IconButton>
         </CardActions>
       </Card>
 
