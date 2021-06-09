@@ -15,7 +15,7 @@ function Tokify() {
         if (!term) {
             return toks;
         }
-        return toks.filter(tok => tok.desc.indexOf(term) !== -1);
+        return toks.filter(tok => tok.desc.toLowerCase().indexOf(term.toLowerCase()) !== -1);
     }
     useEffect(() => {
         let params = new URLSearchParams();
