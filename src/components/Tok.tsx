@@ -1,4 +1,4 @@
-import { Button, CardActions, CardContent, CardHeader, CardMedia, makeStyles } from '@material-ui/core';
+import { Button, CardActions, CardContent, CardHeader, CardMedia, makeStyles, Typography } from '@material-ui/core';
 import React, { useState } from 'react';
 
 import "./Tok.css"
@@ -14,7 +14,6 @@ const useStyles = makeStyles({
 
 function Tok(props: any) {
   const [count, setCount] = useState(0);
-  console.log(props.tiktok)
   return (
     <div className="tok">
       <Card>
@@ -22,15 +21,17 @@ function Tok(props: any) {
           avatar={<Avatar aria-label="recipe">R</Avatar>}
           action={<IconButton aria-label="settings"><MoreVert /></IconButton>}
           title={props.tiktok.name}
-          subheader={props.tiktok.desc}
+          subheader={props.tiktok.author.nickname}
         />
         <CardMedia
-          className=""
-          image="/static/images/cards/paella.jpg"
+          className="auto-height"
+          image={props.tiktok.video.cover}
           title="Paella dish"
         />
         <CardContent>
-
+          <Typography variant="body2" color="textSecondary" component="p">
+            {props.tiktok.desc}
+          </Typography>
         </CardContent>
 
         <CardActions>
