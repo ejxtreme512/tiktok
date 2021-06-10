@@ -15,7 +15,7 @@ function ToksByUser() {
     }, []);
 
     return (
-        <div className='flex flex-column tokify pad-10 overflow-auto'>
+        <div className='flex flex-column tokify pad-5 overflow-auto'>
             <div>
                 <TextField id="txtSearch" label="Enter a Username" value={userName} onChange={(evt) => { setUserName(evt.target.value)}} variant="outlined" />
             </div>
