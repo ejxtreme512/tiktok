@@ -14,7 +14,7 @@ function ToksByTrending() {
     }, []);
 
     return (
-        <div className='flex flex-column tokify pad-10 overflow-auto'>
+        <div className='flex flex-column tokify pad-5 overflow-auto'>
             <TokBrowser toks={toks} title="Trending"></TokBrowser>
         </div>
     );
