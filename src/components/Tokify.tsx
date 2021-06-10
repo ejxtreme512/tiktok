@@ -5,7 +5,9 @@ import ToksByTrending from './ToksByTrending';
 function Tokify() {
     return (
         <div className='flex flex-column tokify pad-5 overflow-auto'>
-            <h2>Welcome to Tokify</h2>
+            <div className="flex">
+                <h2>Tokify</h2>
+            </div>
             <ToksByTrending></ToksByTrending>
         </div>
     );

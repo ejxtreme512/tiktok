@@ -42,7 +42,7 @@ function Tok(props: { onMoreInfoSelected: any, tiktok: Tiktok }) {
         <CardMedia
           className="auto-height"
           image={props.tiktok.video.cover}
-          title="Paella dish"
+          title=""
         />
         <CardContent>
           <Typography variant="body2" color="textSecondary" component="p">
