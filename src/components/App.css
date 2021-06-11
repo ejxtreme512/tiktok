@@ -39,16 +39,26 @@
 
 .flex {
   display: flex;
-  flex:1
+  min-width: 0;
+}
+
+.flex-1 {
+  flex: 1;
+}
+
+.flex-2 {
+  flex: 2;
 }
 
 .flex-column {
+  flex: 1;
   display: flex;
   flex-direction: column;
+  min-width: 0;
 }
 
 .overflow-auto {
-  overflow-y: auto;
+  overflow: auto;
 }
 
 .margin-left-auto {
@@ -57,4 +67,17 @@
 
 .margin-right-auto {
   margin-right: auto;
+}
+
+.pad-10 {
+  padding: 10px;
+}
+
+.pad-5 {
+  padding: 5px;
+}
+
+.auto-height {
+  height: 300px;
+  max-height:500px;
 }
