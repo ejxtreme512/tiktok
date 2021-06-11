@@ -25,19 +25,22 @@ function TokBrowser(props: { toks: Tiktok[], title: string }) {
     useEffect(() => {
         setFilteredToks(props.toks);
     }, [props.toks]);
+    const noToksMatch = (<div>
+        <h4>No Toks Match</h4>
+    </div>);
+    const tokDisplay = filteredToks && filteredToks.length ? filteredToks.map((tok, index) => (
+        <div key={index}>
+            <Tok tiktok={tok} onMoreInfoSelected={onMoreInfoSelected}></Tok>
+        </div>
+    )) : noToksMatch;
     return (
         <div className='flex flex-column tok-browser overflow-auto'>
-            <h3>{props.title}</h3>
-            <div className="flex flex-1 margin-left-auto margin-right-auto overflow-auto">
+            <div className="flex flex-1 overflow-auto">
                 <div className="sidebar">
                     <TextField id="txtSearch" label="Filter By Description" value={searchTerm} onChange={handleSearch} variant="outlined" />
                 </div>
-                <div className="flex-column flex-1 overflow-auto">
-                    {filteredToks.map((tok, index) => (
-                        <div key={index}>
-                            <Tok tiktok={tok} onMoreInfoSelected={onMoreInfoSelected}></Tok>
-                        </div>
-                    ))}
+                <div className="flex-column flex-1 overflow-auto tok-display">
+                    {tokDisplay}
                 </div>
             </div>
         </div>

@@ -1,6 +1,5 @@
-import { Divider, TextField } from '@material-ui/core';
-import React, { useEffect, useState } from 'react';
-import ToksByTrending from './ToksByTrending';
+import { Divider, Tabs, TextField } from '@material-ui/core';
+import TokTabs from './TokTabs';
 
 function Tokify() {
     return (
@@ -8,7 +7,8 @@ function Tokify() {
             <div className="flex">
                 <h2>Tokify</h2>
             </div>
-            <ToksByTrending></ToksByTrending>
+            <Divider></Divider>
+            <TokTabs></TokTabs>
         </div>
     );
 }
