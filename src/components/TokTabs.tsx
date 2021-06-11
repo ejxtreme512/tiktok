@@ -11,7 +11,7 @@ function TokTabs() {
 
     return (
         <BrowserRouter>
-            <div className="flex flex-1">
+            <div className="flex flex-1 overflow-auto">
                 <Route
                     path="/"
                     render={({ location }) => (
