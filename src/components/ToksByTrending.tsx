@@ -19,9 +19,6 @@ function ToksByTrending() {
                 <FormControl variant="outlined" >
                     <InputLabel id="trending-count-label">Count</InputLabel>
                     <Select labelId="trending-count-label" id="trending-count" value={trendCount} onChange={handleChange} label="Count">
-                        <MenuItem value="">
-                            <em>None</em>
-                        </MenuItem>
                         <MenuItem value={30}>30</MenuItem>
                         <MenuItem value={60}>60</MenuItem>
                         <MenuItem value={90}>90</MenuItem>
