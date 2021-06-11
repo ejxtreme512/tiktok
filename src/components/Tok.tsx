@@ -31,7 +31,7 @@ function Tok(props: { onMoreInfoSelected: any, tiktok: Tiktok }) {
 
   return (
     <div className="tok">
-      <Card variant="outlined">
+      <Card className="flex-1" variant="outlined">
         {menu}
         <CardHeader
           avatar={<Avatar aria-label="recipe" src={props.tiktok.author.avatarThumb}></Avatar>}
