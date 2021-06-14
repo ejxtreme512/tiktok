@@ -6,7 +6,7 @@ import Card from '@material-ui/core/Card';
 import Avatar from '@material-ui/core/Avatar';
 import IconButton from '@material-ui/core/IconButton';
 import { Share, Favorite, MoreVert, Save } from '@material-ui/icons';
-import { Tiktok } from '../types/tok';
+import { Tiktok } from '../types/tok.interface';
 const useStyles = makeStyles({
   root: {
     maxWidth: 450
@@ -15,6 +15,7 @@ const useStyles = makeStyles({
 
 function Tok(props: { onMoreInfoSelected: any, tiktok: Tiktok }) {
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
+  const [expanded, setExpanded] = useState<boolean>(false);
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
     setAnchorEl(event.currentTarget);
   };
