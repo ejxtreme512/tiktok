@@ -1,7 +1,7 @@
 import { InputAdornment, TextField } from '@material-ui/core';
 import { Search } from '@material-ui/icons';
 import React, { useEffect, useState } from 'react';
-import { Tiktok } from "../types/tok";
+import { Tiktok } from "../types/tok.interface";
 import TokBrowser from './TokBrowser';
 
 function ToksByUser() {

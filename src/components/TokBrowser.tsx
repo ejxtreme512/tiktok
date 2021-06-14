@@ -1,7 +1,7 @@
 import { Divider, TextField } from '@material-ui/core';
 import React, { useEffect, useState } from 'react';
 import Tok from './Tok';
-import { Tiktok } from "../types/tok";
+import { Tiktok } from "../types/tok.interface";
 import "./TokBrowser.css";
 
 function TokBrowser(props: { toks: Tiktok[], title: string }) {
