@@ -2,5 +2,6 @@
     display: flex;
     flex: 1;
     max-width: 450px;
+    min-width: 300px;
     padding:2px;
 }
