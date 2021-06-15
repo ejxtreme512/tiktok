@@ -1,11 +1,12 @@
 import { InputAdornment, TextField } from '@material-ui/core';
 import { Search } from '@material-ui/icons';
-import React, { useEffect, useState } from 'react';
-import { Tiktok } from "../types/tok.interface";
+import { useEffect, useState } from 'react';
+import { Author, Tiktok } from "../types/tok.interface";
 import TokBrowser from './TokBrowser';
 
-function ToksByUser() {
-    const [userName, setUserName] = useState<string>('');
+function ToksByUser(props: { author?: Author}) {
+    const nickname = props.author?.nickname || '';
+    const [userName, setUserName] = useState<string>(nickname);
     const [trendCount, setTrendCount] = useState<number>(30);
     const [toks, setToks] = useState<Tiktok[]>([]);
 
