@@ -2,6 +2,7 @@ import { InputAdornment, TextField } from '@material-ui/core';
 import { Search } from '@material-ui/icons';
 import { useEffect, useState } from 'react';
 import { useLocation, useParams } from 'react-router-dom';
+import { ROUTES } from '../constants/routes';
 import { User, Tiktok } from "../types/tok.interface";
 import TokBrowser from './TokBrowser';
 
@@ -20,7 +21,7 @@ function ToksByUser(props: { author?: User }) {
     useEffect(() => {
         if (derivedUserName) {
             console.log(derivedUserName)
-            fetch(`http://127.0.0.1:5000/users/${derivedUserName}`, { method: 'GET' }).then(resp => resp.json().then(res => setToks(res)));
+            fetch(`http://127.0.0.1:5000/${ROUTES.TIKTOKS_BY_USER(derivedUserName)}`, { method: 'GET' }).then(resp => resp.json().then(res => setToks(res)));
         }
     }, [props.author]);
 

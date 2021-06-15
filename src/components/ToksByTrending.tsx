@@ -1,5 +1,6 @@
 import { CircularProgress, Divider, FormControl, InputLabel, MenuItem, Select, TextField } from '@material-ui/core';
 import React, { useEffect, useState } from 'react';
+import { ROUTES } from '../constants/routes';
 import { Tiktok } from "../types/tok.interface";
 import TokBrowser from './TokBrowser';
 
@@ -12,7 +13,7 @@ function ToksByTrending() {
         let params = new URLSearchParams();
         params.append(`count`, `${trendCount}`);
         setLoading(true);
-        fetch('http://127.0.0.1:5000/trending', { method: 'GET' })
+        fetch(`http://127.0.0.1:5000/${ROUTES.TIKTOKS_BY_TRENDING()}`, { method: 'GET' })
         .then(resp => resp.json()
         .then((res) => {
             setLoading(false);setToks(res)
