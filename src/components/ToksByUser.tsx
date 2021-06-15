@@ -24,7 +24,12 @@ function ToksByUser(props: { author?: Author }) {
         }
     }, [props.author]);
 
-    const noUser = <div></div>
+    useEffect(() => {
+        if (!props.author) {
+            console.log('author info not found, fetch it!');
+        }
+    }, [derivedUserName]);
+    const emptyDiv = <div></div>
     const userToks = <div className='flex flex-column toks-by-user pad-5 overflow-auto'>
         <div className='flex'>
             <TextField id="txtSearch"
@@ -39,9 +44,9 @@ function ToksByUser(props: { author?: Author }) {
                     )
                 }} />
         </div>
-        <TokBrowser toks={toks} title="Trending"></TokBrowser>
+        {toks ? <TokBrowser toks={toks} title="Creator Videos"></TokBrowser> : emptyDiv};
     </div>;
-    return (props.author ? userToks : noUser);
+    return userToks;
 }
 
 export default ToksByUser;
