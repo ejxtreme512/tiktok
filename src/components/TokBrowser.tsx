@@ -52,8 +52,8 @@ const getTokBreakdown = (toksPerRow: number, filteredToks: Tiktok[], appHistory:
 
     const onMoreInfoSelected = (author: Author) => {
         appHistory.push({
-            pathname: `/authors/${author.nickname}`,
-            state: {  // location state
+            pathname: `/users/${author.uniqueId}`,
+            state: {
               update: true, 
             },
           }); 
