@@ -1,5 +1,5 @@
 export interface Tiktok {
-    "author": Author;
+    "author": User;
     "authorStats": AuthorStats;
     "createTime": number,
     "desc": string,
@@ -54,7 +54,7 @@ export interface Tiktok {
     "vl1": boolean
 }
 
-export interface Author {
+export interface User {
     "avatarLarger": string
     "avatarMedium": string,
     "avatarThumb": string;

@@ -18,7 +18,7 @@ function ToksByTrending() {
             setLoading(false);setToks(res)
         }));
     }, [trendCount]);
-    const loadingBar = <div className="flex flex-1 margin-auto pad-5">
+    const loadingBar = <div className="flex flex-1 flex-align-center pad-5">
         <CircularProgress />
     </div>;
     const tokBrowser = <div className='flex flex-column tokify pad-5 overflow-auto'>

@@ -2,7 +2,7 @@ import { Divider, TextField } from '@material-ui/core';
 import React, { useEffect, useState } from 'react';
 import { useHistory } from 'react-router';
 import Tok from './Tok';
-import { Author, Tiktok } from "../types/tok.interface";
+import { User, Tiktok } from "../types/tok.interface";
 import "./TokBrowser.css";
 
 function TokBrowser(props: { toks: Tiktok[], title: string }) {
@@ -50,7 +50,7 @@ function TokBrowser(props: { toks: Tiktok[], title: string }) {
 
 const getTokBreakdown = (toksPerRow: number, filteredToks: Tiktok[], appHistory: any) => {
 
-    const onMoreInfoSelected = (author: Author) => {
+    const onMoreInfoSelected = (author: User) => {
         appHistory.push({
             pathname: `/users/${author.uniqueId}`,
             state: {

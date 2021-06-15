@@ -6,9 +6,9 @@ import Card from '@material-ui/core/Card';
 import Avatar from '@material-ui/core/Avatar';
 import IconButton from '@material-ui/core/IconButton';
 import { Share, Favorite, MoreVert, Save } from '@material-ui/icons';
-import { Author, Tiktok } from '../types/tok.interface';
+import { User, Tiktok } from '../types/tok.interface';
 
-function Tok(props: { onMoreInfoSelected: (author: Author) => void, tiktok: Tiktok }) {
+function Tok(props: { onMoreInfoSelected: (author: User) => void, tiktok: Tiktok }) {
 	const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
 	const [expanded, setExpanded] = useState<boolean>(false);
 	const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {

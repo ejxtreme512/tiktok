@@ -2,10 +2,10 @@ import { InputAdornment, TextField } from '@material-ui/core';
 import { Search } from '@material-ui/icons';
 import { useEffect, useState } from 'react';
 import { useLocation, useParams } from 'react-router-dom';
-import { Author, Tiktok } from "../types/tok.interface";
+import { User, Tiktok } from "../types/tok.interface";
 import TokBrowser from './TokBrowser';
 
-function ToksByUser(props: { author?: Author }) {
+function ToksByUser(props: { author?: User }) {
     const location = useLocation();
     const params: any = useParams();
     const getUserName = (): string => {
