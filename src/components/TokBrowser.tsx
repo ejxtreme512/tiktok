@@ -1,10 +1,12 @@
 import { Divider, TextField } from '@material-ui/core';
 import React, { useEffect, useState } from 'react';
+import { useHistory } from 'react-router';
 import Tok from './Tok';
-import { Tiktok } from "../types/tok.interface";
+import { Author, Tiktok } from "../types/tok.interface";
 import "./TokBrowser.css";
 
 function TokBrowser(props: { toks: Tiktok[], title: string }) {
+    const appHistory = useHistory();
     const [filteredToks, setFilteredToks] = useState<Tiktok[]>(props.toks);
     const [toksPerRow, setToksPerRow] = useState<number>(2);
     const [searchTerm, setSearchTerm] = useState<string>('');
@@ -30,7 +32,7 @@ function TokBrowser(props: { toks: Tiktok[], title: string }) {
     let tokDisplay;
 
 
-    tokDisplay = filteredToks && filteredToks.length > 0 ? getTokBreakdown(toksPerRow, filteredToks) : noToksMatch;
+    tokDisplay = filteredToks && filteredToks.length > 0 ? getTokBreakdown(toksPerRow, filteredToks, appHistory) : noToksMatch;
 
     return (
         <div className='flex flex-column tok-browser overflow-auto'>
@@ -46,9 +48,15 @@ function TokBrowser(props: { toks: Tiktok[], title: string }) {
     );
 }
 
-const getTokBreakdown = (toksPerRow: number, filteredToks: Tiktok[]) => {
-    const onMoreInfoSelected = (id: string) => {
-        console.log(id);
+const getTokBreakdown = (toksPerRow: number, filteredToks: Tiktok[], appHistory: any) => {
+
+    const onMoreInfoSelected = (author: Author) => {
+        appHistory.push({
+            pathname: `/authors/${author.nickname}`,
+            state: {  // location state
+              update: true, 
+            },
+          }); 
     }
     const tokRows = [];
     for (let x = 0; x < filteredToks.length; x += toksPerRow) {

@@ -6,23 +6,23 @@ import Card from '@material-ui/core/Card';
 import Avatar from '@material-ui/core/Avatar';
 import IconButton from '@material-ui/core/IconButton';
 import { Share, Favorite, MoreVert, Save } from '@material-ui/icons';
-import { Tiktok } from '../types/tok.interface';
+import { Author, Tiktok } from '../types/tok.interface';
 
-function Tok(props: { onMoreInfoSelected: any, tiktok: Tiktok }) {
+function Tok(props: { onMoreInfoSelected: (author: Author) => void, tiktok: Tiktok }) {
 	const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
 	const [expanded, setExpanded] = useState<boolean>(false);
 	const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
 		setAnchorEl(event.currentTarget);
 	};
 	const handleViewProfile = () => {
-		props.onMoreInfoSelected(props.tiktok.author.id);
+		props.onMoreInfoSelected(props.tiktok.author);
 		handleClose();
 	}
 	const handleClose = () => {
 		setAnchorEl(null)
 	}
 	const menu = (<Menu id="tok-more-info-menu" anchorEl={anchorEl} keepMounted open={Boolean(anchorEl)} onClose={handleClose}>
-		<MenuItem onClick={handleViewProfile}>User Profile</MenuItem>
+		<MenuItem onClick={handleViewProfile}>View Profile</MenuItem>
 	</Menu>);
 	const tokInfo = <div className="tok">
 		<Card className="flex-1" variant="outlined">
