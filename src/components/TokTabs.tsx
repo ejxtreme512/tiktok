@@ -25,7 +25,7 @@ function TokTabs() {
                             <Divider orientation="vertical"></Divider>
                             <Switch>
                                 <Route path={allTabs[0]} render={(props) => <ToksByTrending></ToksByTrending>} />
-                                <Route path={[allTabs[1], `${allTabs[1]}/:userName`]} render={(props: any) => <ToksByUser {...props}></ToksByUser>} />
+                                <Route path={[`${allTabs[1]}/:userNameParam`, allTabs[1]]} render={(props: any) => <ToksByUser {...props}></ToksByUser>} />
                             </Switch>
                         </Fragment>
                     )}
