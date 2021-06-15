@@ -25,7 +25,7 @@ function Tok(props: { onMoreInfoSelected: (author: Author) => void, tiktok: Tikt
 		<MenuItem onClick={handleViewProfile}>View Profile</MenuItem>
 	</Menu>);
 	const tokInfo = <div className="tok">
-		<Card className="flex-1" variant="outlined">
+		<Card className="flex-1 flex-column" variant="outlined">
 			{menu}
 			<CardHeader
 				avatar={<Avatar aria-label="recipe" src={props.tiktok.author.avatarThumb}></Avatar>}
@@ -38,7 +38,7 @@ function Tok(props: { onMoreInfoSelected: (author: Author) => void, tiktok: Tikt
 				image={props.tiktok.video.cover}
 				title=""
 			/>
-			<CardContent>
+			<CardContent className="flex-1">
 				<Typography variant="body2" color="textSecondary" component="p">
 					{props.tiktok.desc}
 				</Typography>
