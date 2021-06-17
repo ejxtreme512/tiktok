@@ -7,6 +7,8 @@ import Avatar from '@material-ui/core/Avatar';
 import IconButton from '@material-ui/core/IconButton';
 import { Share, Favorite, MoreVert, Save } from '@material-ui/icons';
 import { User, Tiktok } from '../types/tok.interface';
+import { createURL } from '../utils/url';
+import { RouteName } from '../constants/routes';
 
 function Tok(props: { onMoreInfoSelected: (author: User) => void, tiktok: Tiktok }) {
 	const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
@@ -64,7 +66,7 @@ function Tok(props: { onMoreInfoSelected: (author: User) => void, tiktok: Tiktok
 
 async function downloadTok(id: string) {
 	const a = document.createElement('a');
-	a.href = `http://127.0.0.1:5000/download/${id}`
+	a.href = createURL(RouteName.DOWNLOAD_BY_ID, [id]);
 	a.download = 'testabc';
 	a.click();
 }
