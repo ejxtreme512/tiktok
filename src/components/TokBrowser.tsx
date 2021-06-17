@@ -5,10 +5,9 @@ import Tok from './Tok';
 import { User, Tiktok } from "../types/tok.interface";
 import "./TokBrowser.css";
 
-function TokBrowser(props: { toks: Tiktok[], title: string }) {
+function TokBrowser(props: { toks: Tiktok[], title: string, toksPerRow: number }) {
     const appHistory = useHistory();
     const [filteredToks, setFilteredToks] = useState<Tiktok[]>(props.toks);
-    const [toksPerRow, setToksPerRow] = useState<number>(2);
     const [searchTerm, setSearchTerm] = useState<string>('');
     const handleSearch = (event: React.ChangeEvent<HTMLInputElement>) => {
         setSearchTerm(event?.target.value);
@@ -32,7 +31,7 @@ function TokBrowser(props: { toks: Tiktok[], title: string }) {
     let tokDisplay;
 
 
-    tokDisplay = filteredToks && filteredToks.length > 0 ? getTokBreakdown(toksPerRow, filteredToks, appHistory) : noToksMatch;
+    tokDisplay = filteredToks && filteredToks.length > 0 ? getTokBreakdown(props.toksPerRow || 2, filteredToks, appHistory) : noToksMatch;
 
     return (
         <div className='flex flex-column tok-browser overflow-auto'>
