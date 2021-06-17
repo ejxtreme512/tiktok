@@ -5,7 +5,7 @@ import Tok from './Tok';
 import { User, Tiktok } from "../types/tok.interface";
 import "./TokBrowser.css";
 
-function TokBrowser(props: { toks: Tiktok[], title: string, toksPerRow: number }) {
+function TokBrowser(props: { toks: Tiktok[], title: string, toksPerRow?: number }) {
     const appHistory = useHistory();
     const [filteredToks, setFilteredToks] = useState<Tiktok[]>(props.toks);
     const [searchTerm, setSearchTerm] = useState<string>('');
