@@ -1,11 +1,11 @@
-import { CardActions, CardContent, CardHeader, CardMedia, Menu, MenuItem, Typography } from '@material-ui/core';
+import { Badge, CardActions, CardContent, CardHeader, CardMedia, Menu, MenuItem, Typography } from '@material-ui/core';
 import React, { useState } from 'react';
 
 import "./Tok.css"
 import Card from '@material-ui/core/Card';
 import Avatar from '@material-ui/core/Avatar';
 import IconButton from '@material-ui/core/IconButton';
-import { Share, Favorite, MoreVert, Save } from '@material-ui/icons';
+import { Share, Favorite, MoreVert, Save, Chat, ThumbUp } from '@material-ui/icons';
 import { User, Tiktok } from '../types/tok.interface';
 import { createURL } from '../utils/url';
 import { RouteName } from '../constants/routes';
@@ -57,13 +57,24 @@ function Tok(props: { onMoreInfoSelected: (author: User) => void, tiktok: Tiktok
 				<IconButton aria-label="Share link">
 					<Share />
 				</IconButton>
-				<IconButton aria-label="Add to favorites">
+				<IconButton aria-label="Add to favorites" onClick={() => { addFavorite(tiktok.id) }}>
 					<Favorite />
 				</IconButton>
+				<div className="flex-1"></div>
+				<Badge className="margin-left-5 margin-right-5" badgeContent={tiktok.stats.diggCount} max={10000} color="primary">
+  					<ThumbUp />
+				</Badge>
+				<Badge className="margin-left-5 margin-right-5" badgeContent={tiktok.stats.commentCount} max={10000} color="primary">
+  					<Chat />
+				</Badge>
 			</CardActions>
 		</Card>
 	</div>;
 	return tokInfo;
+}
+
+const addFavorite = (id: string) => {
+	console.log('add favorite');
 }
 
 async function downloadTok(id: string) {
