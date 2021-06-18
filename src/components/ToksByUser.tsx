@@ -1,8 +1,8 @@
-import { InputAdornment, TextField } from '@material-ui/core';
+import { CircularProgress, InputAdornment, TextField } from '@material-ui/core';
 import { Search } from '@material-ui/icons';
 import { useEffect, useState } from 'react';
 import { useLocation, useParams } from 'react-router-dom';
-import { RouteName, ROUTES } from '../constants/routes';
+import { RouteName } from '../constants/routes';
 import { User, Tiktok } from "../types/tok.interface";
 import { createURL } from '../utils/url';
 import TokBrowser from './TokBrowser';
@@ -10,6 +10,7 @@ import TokBrowser from './TokBrowser';
 function ToksByUser(props: { author?: User }) {
     const location = useLocation();
     const params: any = useParams();
+    const [loading, setLoading] = useState<boolean>(false);
     const getUserName = (): string => {
         if (params.userNameParam) {
             return params.userNameParam;
@@ -21,8 +22,13 @@ function ToksByUser(props: { author?: User }) {
     const [toks, setToks] = useState<Tiktok[]>([]);
     useEffect(() => {
         if (derivedUserName) {
-            console.log(derivedUserName)
-            fetch(createURL(RouteName.TIKTOKS_BY_USER, [derivedUserName]), { method: 'GET' }).then(resp => resp.json().then(res => setToks(res)));
+            setLoading(true);
+            fetch(createURL(RouteName.TIKTOKS_BY_USER, [derivedUserName]), { method: 'GET' })
+            .then(resp => resp.json()
+            .then(res => {
+                setLoading(false);
+                setToks(res)
+            }));
         }
     }, [props.author]);
 
@@ -31,7 +37,10 @@ function ToksByUser(props: { author?: User }) {
             console.log('author info not found, fetch it!');
         }
     }, [derivedUserName]);
-    const emptyDiv = <div></div>
+    const loadingBar = <div className="flex flex-1 flex-align-center pad-5">
+        <CircularProgress />
+    </div>;
+    const emptyDiv = <div></div>;
     const userToks = <div className='flex flex-column toks-by-user pad-5 overflow-auto'>
         <div className='flex'>
             <TextField id="txtSearch"
@@ -48,7 +57,10 @@ function ToksByUser(props: { author?: User }) {
         </div>
         {toks ? <TokBrowser toks={toks} title="Creator Videos"></TokBrowser> : emptyDiv};
     </div>;
-    return userToks;
+    return (
+        loading ? loadingBar :
+            userToks
+    );
 }
 
 export default ToksByUser;

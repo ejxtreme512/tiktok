@@ -1,4 +1,4 @@
-import { Button, CardActions, CardContent, CardHeader, CardMedia, makeStyles, Menu, MenuItem, Typography } from '@material-ui/core';
+import { CardActions, CardContent, CardHeader, CardMedia, Menu, MenuItem, Typography } from '@material-ui/core';
 import React, { useState } from 'react';
 
 import "./Tok.css"
@@ -26,28 +26,32 @@ function Tok(props: { onMoreInfoSelected: (author: User) => void, tiktok: Tiktok
 	const menu = (<Menu id="tok-more-info-menu" anchorEl={anchorEl} keepMounted open={Boolean(anchorEl)} onClose={handleClose}>
 		<MenuItem onClick={handleViewProfile}>View Profile</MenuItem>
 	</Menu>);
+	const tiktok = props.tiktok;
+	if (!tiktok) {
+		return <div></div>;
+	}
 	const tokInfo = <div className="tok">
 		<Card className="flex-1 flex-column" variant="outlined">
 			{menu}
 			<CardHeader
-				avatar={<Avatar aria-label="recipe" src={props.tiktok.author.avatarThumb}></Avatar>}
+				avatar={<Avatar aria-label="recipe" src={tiktok.author.avatarThumb}></Avatar>}
 				action={<IconButton aria-label="settings" onClick={handleClick}><MoreVert /></IconButton>}
-				title={props.tiktok.author.nickname}
+				title={tiktok.author.nickname}
 				subheader=""
 			/>
 			<CardMedia
 				className="auto-height"
-				image={props.tiktok.video.cover}
+				image={tiktok.video.cover}
 				title=""
 			/>
 			<CardContent className="flex-1">
 				<Typography variant="body2" color="textSecondary" component="p">
-					{props.tiktok.desc}
+					{tiktok.desc}
 				</Typography>
 			</CardContent>
 
 			<CardActions>
-				<IconButton color="primary" aria-label="Save" onClick={() => { downloadTok(props.tiktok.id) }}>
+				<IconButton color="primary" aria-label="Save" onClick={() => { downloadTok(tiktok.id) }}>
 					<Save />
 				</IconButton>
 				<IconButton aria-label="Share link">
@@ -59,9 +63,7 @@ function Tok(props: { onMoreInfoSelected: (author: User) => void, tiktok: Tiktok
 			</CardActions>
 		</Card>
 	</div>;
-	return (
-		props.tiktok ? tokInfo : <div></div>
-	);
+	return tokInfo;
 }
 
 async function downloadTok(id: string) {
