@@ -5,7 +5,7 @@ export enum RouteName {
 };
 
 export const ROUTES = {
-    [RouteName.DOWNLOAD_BY_ID]: (id: number) => `/download/${id}`,
-    [RouteName.TIKTOKS_BY_TRENDING]: () => '/tiktoks/trending',
-    [RouteName.TIKTOKS_BY_USER]: (user: string) => `tiktoks/${user}`,
+    [RouteName.DOWNLOAD_BY_ID]: (id: number): string => `/download/${id}`,
+    [RouteName.TIKTOKS_BY_TRENDING]: (): string => '/tiktoks/trending',
+    [RouteName.TIKTOKS_BY_USER]: (user: string): string => `tiktoks/${user}`,
 };
