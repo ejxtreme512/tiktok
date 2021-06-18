@@ -1,4 +1,4 @@
-import { Divider, Tabs, TextField } from '@material-ui/core';
+import { Divider } from '@material-ui/core';
 import TokTabs from './TokTabs';
 
 function Tokify() {
