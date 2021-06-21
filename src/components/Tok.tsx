@@ -61,16 +61,26 @@ function Tok(props: { onMoreInfoSelected: (author: User) => void, tiktok: Tiktok
 					<Favorite />
 				</IconButton>
 				<div className="flex-1"></div>
-				<Badge className="margin-left-5 margin-right-5" badgeContent={tiktok.stats.diggCount} max={10000} color="primary">
+				<Badge className="margin-left-5 margin-right-5" badgeContent={intToString(tiktok.stats.diggCount)} max={10000} color="primary">
   					<ThumbUp />
 				</Badge>
-				<Badge className="margin-left-5 margin-right-5" badgeContent={tiktok.stats.commentCount} max={10000} color="primary">
+				<Badge className="margin-left-5 margin-right-5" badgeContent={intToString(tiktok.stats.commentCount)} max={10000} color="primary">
   					<Chat />
 				</Badge>
 			</CardActions>
 		</Card>
 	</div>;
 	return tokInfo;
+}
+
+const intToString = (value: number) => {
+    const suffixes = ["", "k", "m", "b","t"];
+    const suffixNum = Math.floor((""+value).length/3);
+    let shortValue: string | number = parseFloat((suffixNum != 0 ? (value / Math.pow(1000,suffixNum)) : value).toPrecision(2));
+    if (shortValue % 1 != 0) {
+        shortValue = shortValue.toFixed(1);
+    }
+    return shortValue+suffixes[suffixNum];
 }
 
 const addFavorite = (id: string) => {
