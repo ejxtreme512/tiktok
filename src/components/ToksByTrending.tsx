@@ -14,32 +14,31 @@ function ToksByTrending() {
         let params = new URLSearchParams();
         params.append(`count`, `${trendCount}`);
         setLoading(true);
-        const url = createURL(RouteName.TIKTOKS_BY_TRENDING, [], { count: trendCount});
+        const url = createURL(RouteName.TIKTOKS_BY_TRENDING, [], { count: trendCount });
         fetch(url, { method: 'GET' })
-        .then(resp => resp.json()
-        .then((res) => {
-            setLoading(false);setToks(res)
-        }));
+            .then(resp => resp.json()
+                .then((res) => {
+                    setLoading(false); setToks(res)
+                }));
     }, [trendCount]);
     const loadingBar = <div className="flex flex-1 flex-align-center pad-5">
         <CircularProgress />
     </div>;
-    const tokBrowser = <div className='flex flex-column tokify pad-5 overflow-auto'>
-        <div className='flex'>
-            <FormControl variant="outlined" >
-                <InputLabel id="trending-count-label">Count</InputLabel>
-                <Select labelId="trending-count-label" id="trending-count" value={trendCount} onChange={handleChange} label="Count">
-                    <MenuItem value={30}>30</MenuItem>
-                    <MenuItem value={60}>60</MenuItem>
-                    <MenuItem value={90}>90</MenuItem>
-                </Select>
-            </FormControl>
-        </div>
-        <TokBrowser toks={toks} title="Trending"></TokBrowser>
-    </div>
     return (
-        loading ? loadingBar :
-            tokBrowser
+        <div className='flex flex-column tokify pad-5 overflow-auto'>
+            <div className='flex'>
+                <FormControl variant="outlined" >
+                    <InputLabel id="trending-count-label">Count</InputLabel>
+                    <Select labelId="trending-count-label" id="trending-count" value={trendCount} onChange={handleChange} label="Count">
+                        <MenuItem value={30}>30</MenuItem>
+                        <MenuItem value={60}>60</MenuItem>
+                        <MenuItem value={90}>90</MenuItem>
+                    </Select>
+                </FormControl>
+            </div>
+        { loading ? loadingBar :
+            <TokBrowser toks={toks} title="Trending"></TokBrowser>}
+        </div>
     );
 }
 
