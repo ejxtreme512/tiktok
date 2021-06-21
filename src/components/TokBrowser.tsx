@@ -34,7 +34,7 @@ function TokBrowser(props: { toks: Tiktok[], title: string, toksPerRow?: number 
             <div className="flex-column flex-1 overflow-auto">
                 <div className="flex">
                     <div className="flex flex-1">
-                    <TextField className="flex-1" id="txtSearch" label="Filter By Description" value={searchTerm} onChange={handleSearch} variant="outlined" />
+                        <TextField className="flex-1" id="txtSearch" label="Filter By Description" value={searchTerm} onChange={handleSearch} variant="outlined" />
                     </div>
                 </div>
                 <div className="flex-column flex-1 overflow-auto">
@@ -62,7 +62,7 @@ const getTokBreakdown = (toksPerRow: number, filteredToks: Tiktok[], appHistory:
             const location = x + y;
             toks.push(<Tok key={location} tiktok={filteredToks[location]} onMoreInfoSelected={onMoreInfoSelected}></Tok>)
         }
-        tokRows.push(<div key={x} className="flex flex-1">{toks}</div>);
+        tokRows.push(<div key={x} className="flex flex-1 flex-justify-center">{toks}</div>);
     }
     return tokRows;
 }
