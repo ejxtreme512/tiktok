@@ -61,10 +61,10 @@ function Tok(props: { onMoreInfoSelected: (author: User) => void, tiktok: Tiktok
 					<Favorite />
 				</IconButton>
 				<div className="flex-1"></div>
-				<Badge className="margin-left-5 margin-right-5" badgeContent={intToString(tiktok.stats.diggCount)} max={10000} color="primary">
+				<Badge className="margin-left-10 margin-right-10" badgeContent={intToString(tiktok.stats.diggCount)} max={10000} color="primary">
   					<ThumbUp />
 				</Badge>
-				<Badge className="margin-left-5 margin-right-5" badgeContent={intToString(tiktok.stats.commentCount)} max={10000} color="primary">
+				<Badge className="margin-left-10 margin-right-10" badgeContent={intToString(tiktok.stats.commentCount)} max={10000} color="primary">
   					<Chat />
 				</Badge>
 			</CardActions>
