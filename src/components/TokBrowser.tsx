@@ -5,10 +5,11 @@ import Tok from './Tok';
 import { User, Tiktok } from "../types/tok.interface";
 import "./TokBrowser.css";
 
-function TokBrowser(props: { toks: Tiktok[], title: string, toksPerRow?: number }) {
+function TokBrowser(props: { onUserSelected?: Function, toks: Tiktok[], title: string, toksPerRow?: number }) {
     const appHistory = useHistory();
     const [filteredToks, setFilteredToks] = useState<Tiktok[]>(props.toks);
     const [searchTerm, setSearchTerm] = useState<string>('');
+    const [toksPerRow, setToksPerRow] = useState<number>(props.toksPerRow || 2);
     const handleSearch = (event: React.ChangeEvent<HTMLInputElement>) => {
         setSearchTerm(event?.target.value);
     }
@@ -28,7 +29,7 @@ function TokBrowser(props: { toks: Tiktok[], title: string, toksPerRow?: number 
     const noToksMatch = (<div>
         <h4>No Toks Match</h4>
     </div>);
-    let tokDisplay = filteredToks && filteredToks.length > 0 ? getTokBreakdown(props.toksPerRow || 2, filteredToks, appHistory) : noToksMatch;
+    let tokDisplay = filteredToks && filteredToks.length > 0 ? getTokBreakdown(toksPerRow, filteredToks, appHistory, props.onUserSelected) : noToksMatch;
     return (
         <div className='flex flex-column tok-browser overflow-auto'>
             <div className="flex-column flex-1 overflow-auto">
@@ -45,15 +46,9 @@ function TokBrowser(props: { toks: Tiktok[], title: string, toksPerRow?: number 
     );
 }
 
-const getTokBreakdown = (toksPerRow: number, filteredToks: Tiktok[], appHistory: any) => {
-
-    const onMoreInfoSelected = (author: User) => {
-        appHistory.push({
-            pathname: `/users/${author.uniqueId}`,
-            state: {
-              update: true, 
-            },
-          }); 
+const getTokBreakdown = (toksPerRow: number, filteredToks: Tiktok[], appHistory: any, userSelected?: Function) => {
+    const onMoreInfoSelected = (user: User) => {
+        userSelected && userSelected(user);
     }
     const tokRows = [];
     for (let x = 0; x < filteredToks.length; x += toksPerRow) {
