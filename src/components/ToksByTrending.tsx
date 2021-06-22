@@ -5,7 +5,7 @@ import { Tiktok } from "../types/tok.interface";
 import { createURL } from '../utils/url';
 import TokBrowser from './TokBrowser';
 
-function ToksByTrending() {
+function ToksByTrending(props: { onUserSelected: Function}) {
     const [trendCount, setTrendCount] = useState<number>(30);
     const [toks, setToks] = useState<Tiktok[]>([]);
     const handleChange = (evt: any) => setTrendCount(evt.target.value)
@@ -37,7 +37,7 @@ function ToksByTrending() {
                 </FormControl>
             </div>
         { loading ? loadingBar :
-            <TokBrowser toks={toks} title="Trending"></TokBrowser>}
+            <TokBrowser toks={toks} title="Trending" onUserSelected={props.onUserSelected}></TokBrowser>}
         </div>
     );
 }
