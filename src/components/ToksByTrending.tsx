@@ -1,4 +1,4 @@
-import { CircularProgress, Divider, FormControl, InputLabel, MenuItem, Select } from '@material-ui/core';
+import { CircularProgress, FormControl, InputLabel, MenuItem, Select } from '@material-ui/core';
 import { useEffect, useState } from 'react';
 import { RouteName } from '../constants/routes';
 import { Tiktok } from "../types/tok.interface";
