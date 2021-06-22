@@ -9,9 +9,6 @@ import TokBrowser from './TokBrowser';
 
 function ToksByUser(props: { user?: User }) {
     const params: any = useParams();
-    const location = useLocation();
-    const appHistory = useHistory();
-
     const [loading, setLoading] = useState<boolean>(false);
     const getUserName = (): string => {
         return params.userNameParam || '';
@@ -26,14 +23,8 @@ function ToksByUser(props: { user?: User }) {
                 .then(resp => resp.json()
                     .then(res => {
                         setLoading(false);
-                        setToks(res)
+                        setToks(res);
                     }));
-            appHistory.push({
-                pathname: `/users/${props.user.uniqueId}`,
-                state: {
-                    update: true,
-                },
-            });
         }
     }, [props.user]);
 
