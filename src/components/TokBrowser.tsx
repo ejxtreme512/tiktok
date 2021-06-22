@@ -1,12 +1,10 @@
 import { TextField } from '@material-ui/core';
 import React, { useEffect, useState } from 'react';
-import { useHistory } from 'react-router';
 import Tok from './Tok';
 import { User, Tiktok } from "../types/tok.interface";
 import "./TokBrowser.css";
 
 function TokBrowser(props: { onUserSelected?: Function, toks: Tiktok[], title: string, toksPerRow?: number }) {
-    const appHistory = useHistory();
     const [filteredToks, setFilteredToks] = useState<Tiktok[]>(props.toks);
     const [searchTerm, setSearchTerm] = useState<string>('');
     const [toksPerRow, setToksPerRow] = useState<number>(props.toksPerRow || 2);
@@ -29,7 +27,7 @@ function TokBrowser(props: { onUserSelected?: Function, toks: Tiktok[], title: s
     const noToksMatch = (<div>
         <h4>No Toks Match</h4>
     </div>);
-    let tokDisplay = filteredToks && filteredToks.length > 0 ? getTokBreakdown(toksPerRow, filteredToks, appHistory, props.onUserSelected) : noToksMatch;
+    let tokDisplay = filteredToks && filteredToks.length > 0 ? getTokBreakdown(toksPerRow, filteredToks, props.onUserSelected) : noToksMatch;
     return (
         <div className='flex flex-column tok-browser overflow-auto'>
             <div className="flex-column flex-1 overflow-auto">
@@ -46,7 +44,7 @@ function TokBrowser(props: { onUserSelected?: Function, toks: Tiktok[], title: s
     );
 }
 
-const getTokBreakdown = (toksPerRow: number, filteredToks: Tiktok[], appHistory: any, userSelected?: Function) => {
+const getTokBreakdown = (toksPerRow: number, filteredToks: Tiktok[], userSelected?: Function) => {
     const onMoreInfoSelected = (user: User) => {
         userSelected && userSelected(user);
     }
