@@ -1,6 +1,6 @@
 import { Avatar, CircularProgress, InputAdornment, TextField } from '@material-ui/core';
 import { Search } from '@material-ui/icons';
-import { Badge, CardActions, CardContent, CardHeader, CardMedia, Menu, MenuItem, Typography } from '@material-ui/core';
+import { Badge, CardActions, CardContent, CardHeader, Typography } from '@material-ui/core';
 import Card from '@material-ui/core/Card';
 
 import React, { useEffect, useState } from 'react';
@@ -48,10 +48,10 @@ function ToksByUser(props: { user?: User, stats?: AuthorStats }) {
             )
         }} />);
     const userDisplayStats = (props.stats ? [
-        ["followers", props.stats?.followerCount],
-        ["following", props.stats?.followingCount],
-        ["likes", props.stats?.heartCount]
-    ] : []).map((item) => (<p key={item[0]}>{intToString(item[1] as number)} Followers</p>));
+        ["Followers", props.stats?.followerCount],
+        ["Following", props.stats?.followingCount],
+        ["Likes", props.stats?.heartCount]
+    ] : []).map((item) => (<p key={item[0]}>{intToString(item[1] as number)} {item[0]}</p>));
     const userCard = props.user ? (<Card className="flex-1 flex-column" variant="outlined">
 
         <CardHeader
