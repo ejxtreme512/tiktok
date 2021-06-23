@@ -9,6 +9,7 @@ import { Share, Favorite, MoreVert, Save, Chat, ThumbUp } from '@material-ui/ico
 import { User, Tiktok, AuthorInfo } from '../types/tok.interface';
 import { createURL } from '../utils/url';
 import { RouteName } from '../constants/routes';
+import { intToString } from '../utils/number';
 
 function Tok(props: { onMoreInfoSelected: (authorInfo: AuthorInfo) => void, tiktok: Tiktok }) {
 	const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
@@ -71,16 +72,6 @@ function Tok(props: { onMoreInfoSelected: (authorInfo: AuthorInfo) => void, tikt
 		</Card>
 	</div>;
 	return tokInfo;
-}
-
-const intToString = (value: number) => {
-    const suffixes = ["", "k", "m", "b","t"];
-    const suffixNum = Math.floor((""+value).length/3);
-    let shortValue: string | number = parseFloat((suffixNum !== 0 ? (value / Math.pow(1000,suffixNum)) : value).toPrecision(2));
-    if (shortValue % 1 !== 0) {
-        shortValue = shortValue.toFixed(1);
-    }
-    return shortValue+suffixes[suffixNum];
 }
 
 const addFavorite = (id: string) => {
