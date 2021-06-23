@@ -1,10 +1,10 @@
 import { TextField } from '@material-ui/core';
 import React, { useEffect, useState } from 'react';
 import Tok from './Tok';
-import { User, Tiktok } from "../types/tok.interface";
+import { User, Tiktok, AuthorInfo } from "../types/tok.interface";
 import "./TokBrowser.css";
 
-function TokBrowser(props: { onUserSelected?: Function, toks: Tiktok[], title: string, toksPerRow?: number }) {
+function TokBrowser(props: { onUserSelected?: Function, showFilter?: boolean, toks: Tiktok[], title: string, toksPerRow?: number }) {
     const [filteredToks, setFilteredToks] = useState<Tiktok[]>(props.toks);
     const [searchTerm, setSearchTerm] = useState<string>('');
     const [toksPerRow, setToksPerRow] = useState<number>(props.toksPerRow || 2);
@@ -27,15 +27,16 @@ function TokBrowser(props: { onUserSelected?: Function, toks: Tiktok[], title: s
     const noToksMatch = (<div>
         <h4>No Toks Match</h4>
     </div>);
+    const filterBar = props.showFilter ? (<div className="flex">
+        <div className="flex flex-1">
+            <TextField className="flex-1" id="txtSearch" label="Filter By Description" value={searchTerm} onChange={handleSearch} variant="outlined" />
+        </div>
+    </div>) : <div></div>;
     let tokDisplay = filteredToks && filteredToks.length > 0 ? getTokBreakdown(toksPerRow, filteredToks, props.onUserSelected) : noToksMatch;
     return (
         <div className='flex flex-column tok-browser overflow-auto'>
             <div className="flex-column flex-1 overflow-auto">
-                <div className="flex">
-                    <div className="flex flex-1">
-                        <TextField className="flex-1" id="txtSearch" label="Filter By Description" value={searchTerm} onChange={handleSearch} variant="outlined" />
-                    </div>
-                </div>
+                {filterBar}
                 <div className="flex-column flex-1 overflow-auto">
                     {tokDisplay}
                 </div>
@@ -45,8 +46,8 @@ function TokBrowser(props: { onUserSelected?: Function, toks: Tiktok[], title: s
 }
 
 const getTokBreakdown = (toksPerRow: number, filteredToks: Tiktok[], userSelected?: Function) => {
-    const onMoreInfoSelected = (user: User) => {
-        userSelected && userSelected(user);
+    const onMoreInfoSelected = (userInfo: AuthorInfo) => {
+        userSelected && userSelected(userInfo);
     }
     const tokRows = [];
     for (let x = 0; x < filteredToks.length; x += toksPerRow) {
