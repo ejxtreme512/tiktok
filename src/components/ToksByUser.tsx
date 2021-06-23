@@ -1,13 +1,17 @@
-import { CircularProgress, InputAdornment, TextField } from '@material-ui/core';
+import { Avatar, CircularProgress, InputAdornment, TextField } from '@material-ui/core';
 import { Search } from '@material-ui/icons';
-import { useEffect, useState } from 'react';
+import { Badge, CardActions, CardContent, CardHeader, CardMedia, Menu, MenuItem, Typography } from '@material-ui/core';
+import Card from '@material-ui/core/Card';
+
+import React, { useEffect, useState } from 'react';
 import { useHistory, useLocation, useParams } from 'react-router-dom';
 import { RouteName } from '../constants/routes';
-import { User, Tiktok } from "../types/tok.interface";
+import { User, Tiktok, AuthorStats } from "../types/tok.interface";
 import { createURL } from '../utils/url';
 import TokBrowser from './TokBrowser';
+import { intToString } from '../utils/number';
 
-function ToksByUser(props: { user?: User }) {
+function ToksByUser(props: { user?: User, stats?: AuthorStats }) {
     const params: any = useParams();
     const [loading, setLoading] = useState<boolean>(false);
     const getUserName = (): string => {
@@ -43,11 +47,33 @@ function ToksByUser(props: { user?: User }) {
                 </InputAdornment>
             )
         }} />);
+    const userDisplayStats = (props.stats ? [
+        ["followers", props.stats?.followerCount],
+        ["following", props.stats?.followingCount],
+        ["likes", props.stats?.heartCount]
+    ] : []).map((item) => (<p key={item[0]}>{intToString(item[1] as number)} Followers</p>));
+    const userCard = props.user ? (<Card className="flex-1 flex-column" variant="outlined">
+
+        <CardHeader
+            avatar={<Avatar aria-label="avatar" src={props.user.avatarThumb}></Avatar>}
+            title={props.user.nickname}
+            subheader={props.user.uniqueId}
+        />
+        <CardContent className="flex-1">
+            <Typography variant="body2" color="textSecondary" component="p">
+                {props.user.signature}
+            </Typography>
+        </CardContent>
+
+        <CardActions>
+            {userDisplayStats}
+        </CardActions>
+    </Card>) : <div></div>;
     const tokBrowser = <TokBrowser toks={toks} title="Creator Videos"></TokBrowser>;
     return <div className='flex flex-column toks-by-user pad-5 overflow-auto'>
-        {searchField}
+        {/* {searchField} */}
         <div className="flex">
-            <p>Creator Info here</p>
+            {userCard}
         </div>
         {loading ? loadingBar : tokBrowser};
 </div>;
