@@ -102,3 +102,8 @@ export interface Stats {
     "playCount": number;
     "shareCount": number;
 }
+
+export interface AuthorInfo {
+    user: User;
+    stats: AuthorStats;
+}

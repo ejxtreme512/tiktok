@@ -1,21 +1,24 @@
-import { Button, CardActions, CardContent, CardHeader, CardMedia, makeStyles, Menu, MenuItem, Typography } from '@material-ui/core';
+import { Badge, CardActions, CardContent, CardHeader, CardMedia, Menu, MenuItem, Typography } from '@material-ui/core';
 import React, { useState } from 'react';
 
 import "./Tok.css"
 import Card from '@material-ui/core/Card';
 import Avatar from '@material-ui/core/Avatar';
 import IconButton from '@material-ui/core/IconButton';
-import { Share, Favorite, MoreVert, Save } from '@material-ui/icons';
-import { User, Tiktok } from '../types/tok.interface';
+import { Share, Favorite, MoreVert, Save, Chat, ThumbUp } from '@material-ui/icons';
+import { User, Tiktok, AuthorInfo } from '../types/tok.interface';
+import { createURL } from '../utils/url';
+import { RouteName } from '../constants/routes';
+import { intToString } from '../utils/number';
 
-function Tok(props: { onMoreInfoSelected: (author: User) => void, tiktok: Tiktok }) {
+function Tok(props: { onMoreInfoSelected: (authorInfo: AuthorInfo) => void, tiktok: Tiktok }) {
 	const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
 	const [expanded, setExpanded] = useState<boolean>(false);
 	const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
 		setAnchorEl(event.currentTarget);
 	};
 	const handleViewProfile = () => {
-		props.onMoreInfoSelected(props.tiktok.author);
+		props.onMoreInfoSelected({user: props.tiktok.author, stats: props.tiktok.authorStats});
 		handleClose();
 	}
 	const handleClose = () => {
@@ -24,47 +27,60 @@ function Tok(props: { onMoreInfoSelected: (author: User) => void, tiktok: Tiktok
 	const menu = (<Menu id="tok-more-info-menu" anchorEl={anchorEl} keepMounted open={Boolean(anchorEl)} onClose={handleClose}>
 		<MenuItem onClick={handleViewProfile}>View Profile</MenuItem>
 	</Menu>);
+	const tiktok = props.tiktok;
+	if (!tiktok) {
+		return <div></div>;
+	}
 	const tokInfo = <div className="tok">
 		<Card className="flex-1 flex-column" variant="outlined">
 			{menu}
 			<CardHeader
-				avatar={<Avatar aria-label="recipe" src={props.tiktok.author.avatarThumb}></Avatar>}
+				avatar={<Avatar aria-label="recipe" src={tiktok.author.avatarThumb}></Avatar>}
 				action={<IconButton aria-label="settings" onClick={handleClick}><MoreVert /></IconButton>}
-				title={props.tiktok.author.nickname}
+				title={tiktok.author.nickname}
 				subheader=""
 			/>
 			<CardMedia
 				className="auto-height"
-				image={props.tiktok.video.cover}
+				image={tiktok.video.cover}
 				title=""
 			/>
 			<CardContent className="flex-1">
 				<Typography variant="body2" color="textSecondary" component="p">
-					{props.tiktok.desc}
+					{tiktok.desc}
 				</Typography>
 			</CardContent>
 
 			<CardActions>
-				<IconButton color="primary" aria-label="Save" onClick={() => { downloadTok(props.tiktok.id) }}>
+				<IconButton color="primary" aria-label="Save" onClick={() => { downloadTok(tiktok.id) }}>
 					<Save />
 				</IconButton>
 				<IconButton aria-label="Share link">
 					<Share />
 				</IconButton>
-				<IconButton aria-label="Add to favorites">
+				<IconButton aria-label="Add to favorites" onClick={() => { addFavorite(tiktok.id) }}>
 					<Favorite />
 				</IconButton>
+				<div className="flex-1"></div>
+				<Badge className="margin-left-10 margin-right-10" badgeContent={intToString(tiktok.stats.diggCount)} max={10000} color="primary">
+  					<ThumbUp />
+				</Badge>
+				<Badge className="margin-left-10 margin-right-10" badgeContent={intToString(tiktok.stats.commentCount)} max={10000} color="primary">
+  					<Chat />
+				</Badge>
 			</CardActions>
 		</Card>
 	</div>;
-	return (
-		props.tiktok ? tokInfo : <div></div>
-	);
+	return tokInfo;
+}
+
+const addFavorite = (id: string) => {
+	console.log('add favorite');
 }
 
 async function downloadTok(id: string) {
 	const a = document.createElement('a');
-	a.href = `http://127.0.0.1:5000/download/${id}`
+	a.href = createURL(RouteName.DOWNLOAD_BY_ID, [id]);
 	a.download = 'testabc';
 	a.click();
 }

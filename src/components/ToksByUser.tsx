@@ -1,53 +1,82 @@
-import { InputAdornment, TextField } from '@material-ui/core';
+import { Avatar, CircularProgress, InputAdornment, TextField } from '@material-ui/core';
 import { Search } from '@material-ui/icons';
-import { useEffect, useState } from 'react';
-import { useLocation, useParams } from 'react-router-dom';
-import { ROUTES } from '../constants/routes';
-import { User, Tiktok } from "../types/tok.interface";
-import TokBrowser from './TokBrowser';
+import { Badge, CardActions, CardContent, CardHeader, Typography } from '@material-ui/core';
+import Card from '@material-ui/core/Card';
 
-function ToksByUser(props: { author?: User }) {
-    const location = useLocation();
+import React, { useEffect, useState } from 'react';
+import { useHistory, useLocation, useParams } from 'react-router-dom';
+import { RouteName } from '../constants/routes';
+import { User, Tiktok, AuthorStats } from "../types/tok.interface";
+import { createURL } from '../utils/url';
+import TokBrowser from './TokBrowser';
+import { intToString } from '../utils/number';
+
+function ToksByUser(props: { user?: User, stats?: AuthorStats }) {
     const params: any = useParams();
+    const [loading, setLoading] = useState<boolean>(false);
     const getUserName = (): string => {
-        if (params.userNameParam) {
-            return params.userNameParam;
-        }
-        return props.author?.uniqueId || ''
+        return params.userNameParam || '';
     }
-    const [derivedUserName, setUserName] = useState<string>(getUserName());
+    const [searchUserName, setUserName] = useState<string>(getUserName());
     const [trendCount, setTrendCount] = useState<number>(30);
     const [toks, setToks] = useState<Tiktok[]>([]);
     useEffect(() => {
-        if (derivedUserName) {
-            console.log(derivedUserName)
-            fetch(`http://127.0.0.1:5000/${ROUTES.TIKTOKS_BY_USER(derivedUserName)}`, { method: 'GET' }).then(resp => resp.json().then(res => setToks(res)));
+        if (props.user) {
+            setLoading(true);
+            fetch(createURL(RouteName.TIKTOKS_BY_USER, [props.user.uniqueId], { count: trendCount }), { method: 'GET' })
+                .then(resp => resp.json()
+                    .then(res => {
+                        setLoading(false);
+                        setToks(res);
+                    }));
         }
-    }, [props.author]);
+    }, [props.user]);
 
-    useEffect(() => {
-        if (!props.author) {
-            console.log('author info not found, fetch it!');
-        }
-    }, [derivedUserName]);
-    const emptyDiv = <div></div>
-    const userToks = <div className='flex flex-column toks-by-user pad-5 overflow-auto'>
-        <div className='flex'>
-            <TextField id="txtSearch"
-                label="Search Creators"
-                value={derivedUserName} onChange={(evt) => { setUserName(evt.target.value) }}
-                variant="outlined"
-                InputProps={{
-                    startAdornment: (
-                        <InputAdornment position="start">
-                            <Search />
-                        </InputAdornment>
-                    )
-                }} />
-        </div>
-        {toks ? <TokBrowser toks={toks} title="Creator Videos"></TokBrowser> : emptyDiv};
+    const loadingBar = <div className="flex flex-1 flex-align-center pad-5">
+        <CircularProgress />
     </div>;
-    return userToks;
+    const emptyDiv = <div></div>;
+    const searchField = (<TextField id="txtSearch"
+        label="Search Creators"
+        value={searchUserName} onChange={(evt) => { setUserName(evt.target.value) }}
+        variant="outlined"
+        InputProps={{
+            startAdornment: (
+                <InputAdornment position="start">
+                    <Search />
+                </InputAdornment>
+            )
+        }} />);
+    const userDisplayStats = (props.stats ? [
+        ["Followers", props.stats?.followerCount],
+        ["Following", props.stats?.followingCount],
+        ["Likes", props.stats?.heartCount]
+    ] : []).map((item) => (<p key={item[0]}>{intToString(item[1] as number)} {item[0]}</p>));
+    const userCard = props.user ? (<Card className="flex-1 flex-column" variant="outlined">
+
+        <CardHeader
+            avatar={<Avatar aria-label="avatar" src={props.user.avatarThumb}></Avatar>}
+            title={props.user.nickname}
+            subheader={props.user.uniqueId}
+        />
+        <CardContent className="flex-1">
+            <Typography variant="body2" color="textSecondary" component="p">
+                {props.user.signature}
+            </Typography>
+        </CardContent>
+
+        <CardActions>
+            {userDisplayStats}
+        </CardActions>
+    </Card>) : <div></div>;
+    const tokBrowser = <TokBrowser toks={toks} title="Creator Videos"></TokBrowser>;
+    return <div className='flex flex-column toks-by-user pad-5 overflow-auto'>
+        {/* {searchField} */}
+        <div className="flex">
+            {userCard}
+        </div>
+        {loading ? loadingBar : tokBrowser};
+</div>;
 }
 
 export default ToksByUser;

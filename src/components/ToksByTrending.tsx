@@ -1,10 +1,11 @@
-import { CircularProgress, Divider, FormControl, InputLabel, MenuItem, Select, TextField } from '@material-ui/core';
-import React, { useEffect, useState } from 'react';
-import { ROUTES } from '../constants/routes';
+import { CircularProgress, FormControl, InputLabel, MenuItem, Select } from '@material-ui/core';
+import { useEffect, useState } from 'react';
+import { RouteName } from '../constants/routes';
 import { Tiktok } from "../types/tok.interface";
+import { createURL } from '../utils/url';
 import TokBrowser from './TokBrowser';
 
-function ToksByTrending() {
+function ToksByTrending(props: { onUserSelected: Function}) {
     const [trendCount, setTrendCount] = useState<number>(30);
     const [toks, setToks] = useState<Tiktok[]>([]);
     const handleChange = (evt: any) => setTrendCount(evt.target.value)
@@ -13,31 +14,31 @@ function ToksByTrending() {
         let params = new URLSearchParams();
         params.append(`count`, `${trendCount}`);
         setLoading(true);
-        fetch(`http://127.0.0.1:5000/${ROUTES.TIKTOKS_BY_TRENDING()}`, { method: 'GET' })
-        .then(resp => resp.json()
-        .then((res) => {
-            setLoading(false);setToks(res)
-        }));
+        const url = createURL(RouteName.TIKTOKS_BY_TRENDING, [], { count: trendCount });
+        fetch(url, { method: 'GET' })
+            .then(resp => resp.json()
+                .then((res) => {
+                    setLoading(false); setToks(res)
+                }));
     }, [trendCount]);
     const loadingBar = <div className="flex flex-1 flex-align-center pad-5">
         <CircularProgress />
     </div>;
-    const tokBrowser = <div className='flex flex-column tokify pad-5 overflow-auto'>
-        <div className='flex'>
-            <FormControl variant="outlined" >
-                <InputLabel id="trending-count-label">Count</InputLabel>
-                <Select labelId="trending-count-label" id="trending-count" value={trendCount} onChange={handleChange} label="Count">
-                    <MenuItem value={30}>30</MenuItem>
-                    <MenuItem value={60}>60</MenuItem>
-                    <MenuItem value={90}>90</MenuItem>
-                </Select>
-            </FormControl>
-        </div>
-        <TokBrowser toks={toks} title="Trending"></TokBrowser>
-    </div>
     return (
-        loading ? loadingBar :
-            tokBrowser
+        <div className='flex flex-column tokify pad-5 overflow-auto'>
+            <div className='flex'>
+                <FormControl variant="outlined" >
+                    <InputLabel id="trending-count-label">Count</InputLabel>
+                    <Select labelId="trending-count-label" id="trending-count" value={trendCount} onChange={handleChange} label="Count">
+                        <MenuItem value={30}>30</MenuItem>
+                        <MenuItem value={60}>60</MenuItem>
+                        <MenuItem value={90}>90</MenuItem>
+                    </Select>
+                </FormControl>
+            </div>
+        { loading ? loadingBar :
+            <TokBrowser toks={toks} title="Trending" onUserSelected={props.onUserSelected}></TokBrowser>}
+        </div>
     );
 }
 
