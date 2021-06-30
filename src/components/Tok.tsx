@@ -1,4 +1,4 @@
-import { Badge, CardActions, CardContent, CardHeader, CardMedia, Menu, MenuItem, Typography } from '@material-ui/core';
+import { Badge, Button, CardActions, CardContent, CardHeader, CardMedia, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Menu, MenuItem, Typography } from '@material-ui/core';
 import React, { useState } from 'react';
 
 import "./Tok.css"
@@ -6,7 +6,7 @@ import Card from '@material-ui/core/Card';
 import Avatar from '@material-ui/core/Avatar';
 import IconButton from '@material-ui/core/IconButton';
 import { Share, Favorite, MoreVert, Save, Chat, ThumbUp } from '@material-ui/icons';
-import { User, Tiktok, AuthorInfo } from '../types/tok.interface';
+import { Tiktok, AuthorInfo } from '../types/tok.interface';
 import { createURL } from '../utils/url';
 import { RouteName } from '../constants/routes';
 import { intToString } from '../utils/number';
@@ -14,11 +14,12 @@ import { intToString } from '../utils/number';
 function Tok(props: { onMoreInfoSelected: (authorInfo: AuthorInfo) => void, tiktok: Tiktok }) {
 	const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
 	const [expanded, setExpanded] = useState<boolean>(false);
+	const [openShareDialog, setOpenShareDialog] = useState<boolean>(false);
 	const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
 		setAnchorEl(event.currentTarget);
 	};
 	const handleViewProfile = () => {
-		props.onMoreInfoSelected({user: props.tiktok.author, stats: props.tiktok.authorStats});
+		props.onMoreInfoSelected({ user: props.tiktok.author, stats: props.tiktok.authorStats });
 		handleClose();
 	}
 	const handleClose = () => {
@@ -31,6 +32,25 @@ function Tok(props: { onMoreInfoSelected: (authorInfo: AuthorInfo) => void, tikt
 	if (!tiktok) {
 		return <div></div>;
 	}
+	const handleDialogClose = () => {
+		setOpenShareDialog(false);
+	}
+
+	const shareDialog = (
+		<Dialog open={openShareDialog} onClose={handleDialogClose} aria-labelledby="Share Dialog" maxWidth={"md"}>
+			<DialogTitle>Share</DialogTitle>
+			<DialogContent>
+				<DialogContentText>
+					{tiktok.id}
+				</DialogContentText>
+			</DialogContent>
+			<DialogActions>
+				<Button onClick={handleDialogClose} color="primary">
+					Close
+  				</Button>
+			</DialogActions>
+		</Dialog>
+	);
 	const tokInfo = <div className="tok">
 		<Card className="flex-1 flex-column" variant="outlined">
 			{menu}
@@ -55,7 +75,7 @@ function Tok(props: { onMoreInfoSelected: (authorInfo: AuthorInfo) => void, tikt
 				<IconButton color="primary" aria-label="Save" onClick={() => { downloadTok(tiktok.id) }}>
 					<Save />
 				</IconButton>
-				<IconButton aria-label="Share link">
+				<IconButton aria-label="Share link" onClick={() => setOpenShareDialog(true)}>
 					<Share />
 				</IconButton>
 				<IconButton aria-label="Add to favorites" onClick={() => { addFavorite(tiktok.id) }}>
@@ -63,13 +83,14 @@ function Tok(props: { onMoreInfoSelected: (authorInfo: AuthorInfo) => void, tikt
 				</IconButton>
 				<div className="flex-1"></div>
 				<Badge className="margin-left-10 margin-right-10" badgeContent={intToString(tiktok.stats.diggCount)} max={10000} color="primary">
-  					<ThumbUp />
+					<ThumbUp />
 				</Badge>
 				<Badge className="margin-left-10 margin-right-10" badgeContent={intToString(tiktok.stats.commentCount)} max={10000} color="primary">
-  					<Chat />
+					<Chat />
 				</Badge>
 			</CardActions>
 		</Card>
+		{shareDialog}
 	</div>;
 	return tokInfo;
 }
