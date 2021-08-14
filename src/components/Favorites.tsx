@@ -26,18 +26,16 @@ function FavoriteToks(props: { favorites: any[], userId: number }) {
         setSelectedList(fav);
     };
     const createFavoritesList = () => {
-        const data = {
-            userId: props.userId,
-            listName: 'New List'
-        };
+        let formData = new FormData();
+        formData.append('userId', JSON.stringify(props.userId));
+        formData.append('listName', 'New List');
         fetch(createURL(RouteName.ADD_FAVORITES_LIST, []), {
             method: 'POST',
-            body: JSON.stringify(data)
-        })
-            .then(resp => resp.json()
-                .then(res => {
-                    //Favorites list updated
-                }));
+            body: formData
+        }).then(resp => resp.json()
+            .then(res => {
+                //Favorites list updated
+            }));
     }
     useEffect(() => {
         if (props.favorites && selectedList) {
@@ -68,7 +66,7 @@ function FavoriteToks(props: { favorites: any[], userId: number }) {
                 <h5>Favorites List</h5>
                 <IconButton color="primary" aria-label="Add new favorites list" onClick={() => { createFavoritesList() }}>
                     <AddIcon />
-				</IconButton>
+                </IconButton>
                 {props.favorites ? favoriteLists : noFavorites}
             </div>
             {selectedList ? tokBrowser : <h5>Select a list to view Tiktoks</h5>}
