@@ -70,7 +70,7 @@ function TokTabs() {
                         <Switch>
                             <Route path={allTabs[0]} render={(props) => <ToksByTrending onUserSelected={onUserSelected}></ToksByTrending>} />
                             <Route path={[`${allTabs[1]}/:userNameParam`, allTabs[1]]} render={(props: any) => <ToksByUser user={selectedUser} stats={selectedUserStats}></ToksByUser>} />
-                            <Route path={allTabs[2]} render={(props) => <FavoriteToks favorites={userFavoriteLists}></FavoriteToks>} />
+                            <Route path={allTabs[2]} render={(props) => <FavoriteToks favorites={userFavoriteLists} userId={userId}></FavoriteToks>} />
                         </Switch>
                     </Fragment>
                 )}
