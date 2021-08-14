@@ -60,7 +60,6 @@ function ToksByUser(props: { user?: User, stats?: AuthorStats }) {
         ["Likes", props.stats?.heartCount]
     ] : []).map((item) => (<p key={item[0]}>{intToString(item[1] as number)} {item[0]}</p>));
     const userCard = props.user ? (<Card className="flex-1 flex-column" variant="outlined">
-
         <CardHeader
             avatar={<Avatar aria-label="avatar" src={props.user.avatarThumb}></Avatar>}
             title={props.user.nickname}
