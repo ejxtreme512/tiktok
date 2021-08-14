@@ -13,6 +13,7 @@ import { intToString } from '../utils/number';
 
 function ToksByUser(props: { user?: User, stats?: AuthorStats }) {
     const params: any = useParams();
+    const [userCardExpanded, setUserCardExpanded] = useState<boolean>(true);
     const [loading, setLoading] = useState<boolean>(false);
     const getUserName = (): string => {
         return params.userNameParam || '';
@@ -31,6 +32,12 @@ function ToksByUser(props: { user?: User, stats?: AuthorStats }) {
                     }));
         }
     }, [props.user]);
+
+    useEffect(() => {
+        if (!props.user) {
+            console.log('fetch info!!')
+        }
+    }, [searchUserName]);
 
     const loadingBar = <div className="flex flex-1 flex-align-center pad-5">
         <CircularProgress />
@@ -59,15 +66,15 @@ function ToksByUser(props: { user?: User, stats?: AuthorStats }) {
             title={props.user.nickname}
             subheader={props.user.uniqueId}
         />
-        <CardContent className="flex-1">
+        {userCardExpanded ? <CardContent className="flex-1">
             <Typography variant="body2" color="textSecondary" component="p">
                 {props.user.signature}
             </Typography>
-        </CardContent>
+        </CardContent> : ""};
 
-        <CardActions>
+        {userCardExpanded ? <CardActions>
             {userDisplayStats}
-        </CardActions>
+        </CardActions> : ""};
     </Card>) : <div></div>;
     const tokBrowser = <TokBrowser toks={toks} title="Creator Videos"></TokBrowser>;
     return <div className='flex flex-column toks-by-user pad-5 overflow-auto'>
