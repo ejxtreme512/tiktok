@@ -1,6 +1,7 @@
 import { CircularProgress, IconButton, List, ListItem, ListItemIcon, ListItemText, TextField } from '@material-ui/core';
 import { useEffect, useState } from 'react';
 import AddIcon from '@material-ui/icons/Add';
+import DeleteIcon from '@material-ui/icons/Delete';
 import EditIcon from '@material-ui/icons/Edit';
 import Tok from './Tok';
 import { User, Tiktok, AuthorInfo } from "../types/tok.interface";
@@ -52,6 +53,9 @@ function FavoriteToks(props: { favorites: any[], userId: number }) {
                     <ListItemIcon>
                         <EditIcon />
                     </ListItemIcon>
+                    <ListItemIcon>
+                        <DeleteIcon />
+                    </ListItemIcon>
                     <ListItemText primary={fav[1]} />
                 </ListItem>
             )}
@@ -63,10 +67,12 @@ function FavoriteToks(props: { favorites: any[], userId: number }) {
     return (
         <div className='flex flex-column tok-favorites overflow-auto'>
             <div>
-                <h5>Favorites List</h5>
-                <IconButton color="primary" aria-label="Add new favorites list" onClick={() => { createFavoritesList() }}>
-                    <AddIcon />
-                </IconButton>
+                <div className="flex">
+                    <h5>Favorites List</h5>
+                    <IconButton color="primary" aria-label="Add new favorites list" onClick={() => { createFavoritesList() }}>
+                        <AddIcon />
+                    </IconButton>
+                </div>
                 {props.favorites ? favoriteLists : noFavorites}
             </div>
             {selectedList ? tokBrowser : <h5>Select a list to view Tiktoks</h5>}
