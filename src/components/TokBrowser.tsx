@@ -25,7 +25,7 @@ function TokBrowser(props: { onUserSelected?: Function, showFilter?: boolean, to
     }, [props.toks]);
 
     const noToksMatch = (<div>
-        <h4>No Toks Match</h4>
+        <h4>No Toks to show</h4>
     </div>);
     const filterBar = props.showFilter ? (<div className="flex">
         <div className="flex flex-1">
