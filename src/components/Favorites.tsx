@@ -2,13 +2,12 @@ import { CircularProgress, IconButton, List, ListItem, ListItemIcon, ListItemTex
 import { useEffect, useState } from 'react';
 import AddIcon from '@material-ui/icons/Add';
 import DeleteIcon from '@material-ui/icons/Delete';
-import EditIcon from '@material-ui/icons/Edit';
-import Tok from './Tok';
-import { User, Tiktok, AuthorInfo } from "../types/tok.interface";
 import "./TokBrowser.css";
 import { createURL } from '../utils/url';
 import { RouteName } from '../constants/routes';
 import TokBrowser from './TokBrowser';
+import FavoriteList from './FavoriteList';
+import { Tiktok } from '../types/tok.interface';
 
 function FavoriteToks(props: { favorites: any[], userId: number }) {
     const [selectedList, setSelectedList] = useState<any>();
@@ -22,7 +21,7 @@ function FavoriteToks(props: { favorites: any[], userId: number }) {
                     setToks(res);
                     setLoading(false);
                 }));
-    }
+    };
     const handleListItemClick = (event: any, fav: any) => {
         setSelectedList(fav);
     };
@@ -37,7 +36,7 @@ function FavoriteToks(props: { favorites: any[], userId: number }) {
             .then(res => {
                 //Favorites list updated
             }));
-    }
+    };
     useEffect(() => {
         if (props.favorites && selectedList) {
             getList(selectedList[0]);
@@ -50,9 +49,6 @@ function FavoriteToks(props: { favorites: any[], userId: number }) {
         (<List component="nav" aria-label="">
             {props.favorites && props.favorites.map((fav, idx) =>
                 <ListItem key={idx} button selected={selectedList && selectedList[0] === fav[0]} onClick={(event) => handleListItemClick(event, fav)}>
-                    <ListItemIcon>
-                        <EditIcon />
-                    </ListItemIcon>
                     <ListItemIcon>
                         <DeleteIcon />
                     </ListItemIcon>
@@ -75,7 +71,7 @@ function FavoriteToks(props: { favorites: any[], userId: number }) {
                 </div>
                 {props.favorites ? favoriteLists : noFavorites}
             </div>
-            {selectedList ? tokBrowser : <h5>Select a list to view Tiktoks</h5>}
+            {selectedList ? <FavoriteList list={selectedList} userId={props.userId} toks={[]}></FavoriteList> : <h5>Select a list to view Tiktoks</h5>}
         </div>
     );
 }
