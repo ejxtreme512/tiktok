@@ -33,6 +33,12 @@ function TokTabs() {
                 });
         }
     }
+    const onEditList = (list: any) => {
+
+    }
+    const onListNameEdited = (list: any) => {
+
+    }
     const getFavorites = () => {
         fetch(createURL(RouteName.USER_FAVORITES, [userId]), { method: 'GET' })
             .then(resp => resp.json()
