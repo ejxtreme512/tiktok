@@ -1,5 +1,6 @@
 export enum RouteName {
     ADD_FAVORITES_LIST = "ADD_FAVORITES_LIST",
+    DELETE_FAVORITES_LIST = "DELETE_FAVORITES_LIST",
     DOWNLOAD_BY_ID = "DOWNLOAD_BY_ID",
     FAVORITES_LIST = "FAVORITES_LIST",
     TIKTOKS_BY_TRENDING = "TIKTOKS_BY_TRENDING",
@@ -14,6 +15,7 @@ interface Routes {
 
 export const ROUTES: Routes = {
     [RouteName.ADD_FAVORITES_LIST]: (id: number): string => 'favorites/list',
+    [RouteName.DELETE_FAVORITES_LIST]: (id: number): string => `favorites/list/${id}`,
     [RouteName.DOWNLOAD_BY_ID]: (id: number): string => `download/${id}`,
     [RouteName.FAVORITES_LIST]: (id: number): string => `favorites/list/${id}`,
     [RouteName.TIKTOKS_BY_TRENDING]: (): string => 'tiktoks/trending',

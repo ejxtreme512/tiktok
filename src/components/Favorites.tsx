@@ -37,6 +37,11 @@ function FavoriteToks(props: { favorites: any[], userId: number }) {
                 //Favorites list updated
             }));
     };
+    const onDeleteList = (list: any) => {
+        fetch(createURL(RouteName.DELETE_FAVORITES_LIST, []), {
+            method: 'DELETE'
+        })
+    };
     useEffect(() => {
         if (props.favorites && selectedList) {
             getList(selectedList[0]);
@@ -47,12 +52,14 @@ function FavoriteToks(props: { favorites: any[], userId: number }) {
     </div>);
     const favoriteLists =
         (<List component="nav" aria-label="">
-            {props.favorites && props.favorites.map((fav, idx) =>
-                <ListItem key={idx} button selected={selectedList && selectedList[0] === fav[0]} onClick={(event) => handleListItemClick(event, fav)}>
+            {props.favorites && props.favorites.map((favList, idx) =>
+                <ListItem key={idx} button selected={selectedList && selectedList[0] === favList[0]} onClick={(event) => handleListItemClick(event, favList)}>
                     <ListItemIcon>
-                        <DeleteIcon />
+                        <IconButton color="primary" aria-label="Delete list" onClick={() => { onDeleteList(favList) }}>
+                            <DeleteIcon />
+                        </IconButton>
                     </ListItemIcon>
-                    <ListItemText primary={fav[1]} />
+                    <ListItemText primary={favList[1]} />
                 </ListItem>
             )}
         </List>)
