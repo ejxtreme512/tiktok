@@ -107,3 +107,9 @@ export interface AuthorInfo {
     user: User;
     stats: AuthorStats;
 }
+
+export interface Favorite {
+    list_id: number;
+    user_id: number;
+    list_name: string;
+}
