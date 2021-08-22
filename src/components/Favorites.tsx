@@ -6,11 +6,11 @@ import "./TokBrowser.css";
 import { createURL } from '../utils/url';
 import { RouteName } from '../constants/routes';
 import TokBrowser from './TokBrowser';
+import { Favorite, Tiktok } from '../types/tok.interface';
 import FavoriteList from './FavoriteList';
-import { Tiktok } from '../types/tok.interface';
 
 function FavoriteToks(props: { favorites: any[], userId: number }) {
-    const [selectedList, setSelectedList] = useState<any>();
+    const [selectedList, setSelectedList] = useState<Favorite>();
     const [toks, setToks] = useState<Tiktok[]>([]);
     const [loading, setLoading] = useState<boolean>(false);
     const getList = (listId: number) => {
@@ -44,22 +44,22 @@ function FavoriteToks(props: { favorites: any[], userId: number }) {
     };
     useEffect(() => {
         if (props.favorites && selectedList) {
-            getList(selectedList[0]);
+            getList(selectedList.list_id);
         }
-    }, selectedList)
+    }, [selectedList])
     const noFavorites = (<div>
         <h4>No Favorites</h4>
     </div>);
     const favoriteLists =
         (<List component="nav" aria-label="">
-            {props.favorites && props.favorites.map((favList, idx) =>
-                <ListItem key={idx} button selected={selectedList && selectedList[0] === favList[0]} onClick={(event) => handleListItemClick(event, favList)}>
+            {props.favorites && props.favorites.map((favList: Favorite, idx) =>
+                <ListItem key={idx} button selected={selectedList && selectedList.list_id === favList.list_id} onClick={(event) => handleListItemClick(event, favList)}>
                     <ListItemIcon>
                         <IconButton color="primary" aria-label="Delete list" onClick={() => { onDeleteList(favList) }}>
                             <DeleteIcon />
                         </IconButton>
                     </ListItemIcon>
-                    <ListItemText primary={favList[1]} />
+                    <ListItemText primary={favList.list_name} />
                 </ListItem>
             )}
         </List>)
