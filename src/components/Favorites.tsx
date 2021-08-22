@@ -26,16 +26,12 @@ function FavoriteToks(props: { favorites: any[], userId: number }) {
         setSelectedList(fav);
     };
     const createFavoritesList = () => {
-        let formData = new FormData();
-        formData.append('userId', JSON.stringify(props.userId));
-        formData.append('listName', 'New List');
-        fetch(createURL(RouteName.ADD_FAVORITES_LIST, []), {
-            method: 'POST',
-            body: formData
-        }).then(resp => resp.json()
-            .then(res => {
-                //Favorites list updated
-            }));
+        const newList = {
+            list_id: -1,
+            user_id: props.userId,
+            list_name: 'New List' 
+        };
+        setSelectedList(newList);
     };
     const onDeleteList = (list: any) => {
         fetch(createURL(RouteName.DELETE_FAVORITES_LIST, []), {
