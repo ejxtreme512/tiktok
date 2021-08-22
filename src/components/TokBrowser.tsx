@@ -4,7 +4,7 @@ import Tok from './Tok';
 import { User, Tiktok, AuthorInfo } from "../types/tok.interface";
 import "./TokBrowser.css";
 
-function TokBrowser(props: { onUserSelected?: Function, showFilter?: boolean, toks: Tiktok[], title: string, toksPerRow?: number }) {
+function TokBrowser(props: { emptyMsg?: string, onUserSelected?: Function, showFilter?: boolean, toks: Tiktok[], title: string, toksPerRow?: number }) {
     const [filteredToks, setFilteredToks] = useState<Tiktok[]>(props.toks);
     const [searchTerm, setSearchTerm] = useState<string>('');
     const [toksPerRow, setToksPerRow] = useState<number>(props.toksPerRow || 2);
@@ -25,7 +25,7 @@ function TokBrowser(props: { onUserSelected?: Function, showFilter?: boolean, to
     }, [props.toks]);
 
     const noToksMatch = (<div>
-        <h4>No Toks to show</h4>
+        <h4>{props.emptyMsg || 'No Toks to display.'}</h4>
     </div>);
     const filterBar = props.showFilter ? (<div className="flex">
         <div className="flex flex-1">
