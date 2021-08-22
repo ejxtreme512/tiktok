@@ -1,15 +1,18 @@
 import { TextField } from '@material-ui/core';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Favorite } from '../types/tok.interface';
 import TokBrowser from './TokBrowser';
 
 function FavoriteList(props: { list: any, userId: number, toks: any[] }) {
     const [selectedList, setSelectedList] = useState<Favorite>({ ...props.list });
     const handleEdit = (evt: any) => {
-        const curList = {...selectedList};
+        const curList = { ...selectedList };
         curList.list_name = evt.target.value;
         setSelectedList(curList);
-    }
+    };
+    useEffect(() => {
+        setSelectedList({ ...props.list });
+    }, [props.list])
     const tokBrowser = <TokBrowser toks={props.toks} title=""></TokBrowser>;
     return (
         <div className='flex flex-column tok-favorite-list overflow-auto'>
