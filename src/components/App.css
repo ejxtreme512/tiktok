@@ -42,6 +42,10 @@
   min-width: 0;
 }
 
+.flex-row-reverse {
+  flex-direction: row-reverse;
+}
+
 .flex-1 {
   flex: 1;
 }
