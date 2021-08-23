@@ -9,7 +9,7 @@ import TokBrowser from './TokBrowser';
 import { Favorite, Tiktok } from '../types/tok.interface';
 import FavoriteList from './FavoriteList';
 
-function FavoriteToks(props: { favorites: any[], userId: number }) {
+function FavoriteToks(props: { favorites: any[], userId: number, onDeleteList: Function, onEditList: Function }) {
     const [selectedList, setSelectedList] = useState<Favorite>();
     const [toks, setToks] = useState<Tiktok[]>([]);
     const [loading, setLoading] = useState<boolean>(false);
@@ -29,14 +29,9 @@ function FavoriteToks(props: { favorites: any[], userId: number }) {
         const newList = {
             list_id: -1,
             user_id: props.userId,
-            list_name: 'New List' 
+            list_name: 'New List'
         };
         setSelectedList(newList);
-    };
-    const onDeleteList = (list: any) => {
-        fetch(createURL(RouteName.DELETE_FAVORITES_LIST, []), {
-            method: 'DELETE'
-        })
     };
     useEffect(() => {
         if (props.favorites && selectedList) {
@@ -50,11 +45,11 @@ function FavoriteToks(props: { favorites: any[], userId: number }) {
         (<List component="nav" aria-label="">
             {props.favorites && props.favorites.map((favList: Favorite, idx) =>
                 <ListItem key={idx} button selected={selectedList && selectedList.list_id === favList.list_id} onClick={(event) => handleListItemClick(event, favList)}>
-                    <ListItemIcon>
-                        <IconButton color="primary" aria-label="Delete list" onClick={() => { onDeleteList(favList) }}>
+                    {/* <ListItemIcon>
+                        <IconButton color="primary" aria-label="Delete list" onClick={() => { props.onDeleteList(favList) }}>
                             <DeleteIcon />
                         </IconButton>
-                    </ListItemIcon>
+                    </ListItemIcon> */}
                     <ListItemText primary={favList.list_name} />
                 </ListItem>
             )}
@@ -74,7 +69,7 @@ function FavoriteToks(props: { favorites: any[], userId: number }) {
                 </div>
                 {props.favorites ? favoriteLists : noFavorites}
             </div>
-            {selectedList ? <FavoriteList list={selectedList} userId={props.userId} toks={[]}></FavoriteList> : <h5>Select a list to view Tiktoks</h5>}
+            {selectedList ? <FavoriteList list={selectedList} userId={props.userId} onDeleteList={props.onDeleteList} onEditList={props.onEditList} toks={[]}></FavoriteList> : <h5>Select a list to view Tiktoks</h5>}
         </div>
     );
 }
