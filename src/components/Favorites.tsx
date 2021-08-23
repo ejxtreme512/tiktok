@@ -26,8 +26,12 @@ function FavoriteToks(props: { favorites: any[], userId: number, onDeleteList: F
         props.onDeleteList(selectedList);
         setSelectedList(undefined);
     }
-    const handleListItemClick = (event: any, fav: any) => {
-        setSelectedList(fav);
+    const handleListItemClick = (event: any, fav: Favorite) => {
+        if (selectedList && selectedList.list_id === fav.list_id) {
+            setSelectedList(undefined);
+        } else {
+            setSelectedList(fav);
+        }
     };
     const createFavoritesList = () => {
         const newList = {
