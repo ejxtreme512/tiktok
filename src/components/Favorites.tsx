@@ -22,6 +22,10 @@ function FavoriteToks(props: { favorites: any[], userId: number, onDeleteList: F
                     setLoading(false);
                 }));
     };
+    const handleDelete = () => {
+        props.onDeleteList(selectedList);
+        setSelectedList(undefined);
+    }
     const handleListItemClick = (event: any, fav: any) => {
         setSelectedList(fav);
     };
@@ -45,11 +49,6 @@ function FavoriteToks(props: { favorites: any[], userId: number, onDeleteList: F
         (<List component="nav" aria-label="">
             {props.favorites && props.favorites.map((favList: Favorite, idx) =>
                 <ListItem key={idx} button selected={selectedList && selectedList.list_id === favList.list_id} onClick={(event) => handleListItemClick(event, favList)}>
-                    {/* <ListItemIcon>
-                        <IconButton color="primary" aria-label="Delete list" onClick={() => { props.onDeleteList(favList) }}>
-                            <DeleteIcon />
-                        </IconButton>
-                    </ListItemIcon> */}
                     <ListItemText primary={favList.list_name} />
                 </ListItem>
             )}
@@ -69,7 +68,7 @@ function FavoriteToks(props: { favorites: any[], userId: number, onDeleteList: F
                 </div>
                 {props.favorites ? favoriteLists : noFavorites}
             </div>
-            {selectedList ? <FavoriteList list={selectedList} userId={props.userId} onDeleteList={props.onDeleteList} onEditList={props.onEditList} toks={[]}></FavoriteList> : <h5>Select a list to view Tiktoks</h5>}
+            {selectedList ? <FavoriteList list={selectedList} userId={props.userId} onDeleteList={handleDelete} onEditList={props.onEditList} toks={[]}></FavoriteList> : <h5>Select a list to view Tiktoks</h5>}
         </div>
     );
 }

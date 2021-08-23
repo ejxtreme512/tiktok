@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react';
 import { Favorite } from '../types/tok.interface';
 import TokBrowser from './TokBrowser';
 
-function FavoriteList(props: { list: any, userId: number, toks: any[], onFavoritesListUpdated: Function }) {
+function FavoriteList(props: { list: any, userId: number, toks: any[], onDeleteList: Function, onEditList: Function }) {
     const [selectedList, setSelectedList] = useState<Favorite>({ ...props.list });
     const handleEdit = (evt: any) => {
         const curList = { ...selectedList };
@@ -11,7 +11,10 @@ function FavoriteList(props: { list: any, userId: number, toks: any[], onFavorit
         setSelectedList(curList);
     };
     const handleSave = () => {
-        props.onFavoritesListUpdated(selectedList);
+        props.onEditList(selectedList);
+    }
+    const handleDelete = () => {
+        props.onDeleteList(selectedList);
     }
     useEffect(() => {
         setSelectedList({ ...props.list });
@@ -24,6 +27,9 @@ function FavoriteList(props: { list: any, userId: number, toks: any[], onFavorit
                 <TextField className="flex-1" id="txtSearch" label="Filter By Description" value={selectedList.list_name} onChange={handleEdit} variant="outlined" />
             </div>
             <div className="flex flex-row-reverse">
+                <Button onClick={handleDelete} color="primary">
+                    Delete
+                </Button>
                 <Button onClick={handleSave} color="primary">
                     Save
                 </Button>
