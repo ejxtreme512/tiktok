@@ -1,8 +1,6 @@
-import { TextField } from '@material-ui/core';
+import { Button, TextField } from '@material-ui/core';
 import { useEffect, useState } from 'react';
-import { RouteName } from '../constants/routes';
 import { Favorite } from '../types/tok.interface';
-import { createURL } from '../utils/url';
 import TokBrowser from './TokBrowser';
 
 function FavoriteList(props: { list: any, userId: number, toks: any[], onFavoritesListUpdated: Function }) {
@@ -12,18 +10,9 @@ function FavoriteList(props: { list: any, userId: number, toks: any[], onFavorit
         curList.list_name = evt.target.value;
         setSelectedList(curList);
     };
-    const createFavoritesList = (listName: string) => {
-        let formData = new FormData();
-        formData.append('userId', JSON.stringify(props.userId));
-        formData.append('listName', listName);
-        fetch(createURL(RouteName.ADD_FAVORITES_LIST, []), {
-            method: 'POST',
-            body: formData
-        }).then(resp => resp.json()
-            .then(res => {
-                //Favorites list updated
-            }));
-    };
+    const handleSave = () => {
+        props.onFavoritesListUpdated(selectedList);
+    }
     useEffect(() => {
         setSelectedList({ ...props.list });
     }, [props.list]);
@@ -34,8 +23,13 @@ function FavoriteList(props: { list: any, userId: number, toks: any[], onFavorit
             <div className="flex">
                 <TextField className="flex-1" id="txtSearch" label="Filter By Description" value={selectedList.list_name} onChange={handleEdit} variant="outlined" />
             </div>
+            <div className="flex flex-row-reverse">
+                <Button onClick={handleSave} color="primary">
+                    Save
+                </Button>
+            </div>
             <div className="flex flex-1">
-                {tokBrowser};
+                {tokBrowser}
             </div>
         </div>
     );
