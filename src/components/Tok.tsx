@@ -11,7 +11,7 @@ import { createURL } from '../utils/url';
 import { RouteName } from '../constants/routes';
 import { intToString } from '../utils/number';
 
-function Tok(props: { onMoreInfoSelected: (authorInfo: AuthorInfo) => void, tiktok: Tiktok }) {
+function Tok(props: { showHeader?: boolean, onMoreInfoSelected: (authorInfo: AuthorInfo) => void, tiktok: Tiktok }) {
 	const [ActionEl, setActionEl] = useState<null | HTMLElement>(null);
 	const [FavoriteEl, setFavoriteEl] = useState<null | HTMLElement>(null);
 	const [expanded, setExpanded] = useState<boolean>(false);
@@ -64,12 +64,13 @@ function Tok(props: { onMoreInfoSelected: (authorInfo: AuthorInfo) => void, tikt
 		<Card className="flex-1 flex-column" variant="outlined">
 			{actionMenu}
 			{favoriteMenu}
-			<CardHeader
+			{props.showHeader !== false ? <CardHeader
 				avatar={<Avatar aria-label="recipe" src={tiktok.author.avatarThumb}></Avatar>}
 				action={<IconButton aria-label="settings" onClick={handleClick}><MoreVert /></IconButton>}
 				title={tiktok.author.nickname}
 				subheader=""
-			/>
+			/> : ''
+			}
 			<CardMedia
 				className="auto-height"
 				image={tiktok.video.cover}

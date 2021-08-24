@@ -85,7 +85,7 @@ function ToksByUser(props: { user?: User, stats?: AuthorStats }) {
             {userDisplayStats}
         </CardActions> : ""}
     </Card>) : <div></div>;
-    const tokBrowser = <TokBrowser toks={toks} title="Creator Videos"></TokBrowser>;
+    const tokBrowser = <TokBrowser showHeader={false} toks={toks} title="Creator Videos"></TokBrowser>;
     return <div className='flex flex-column toks-by-user pad-5 overflow-auto'>
         {/* {searchField} */}
         <div className="flex">
