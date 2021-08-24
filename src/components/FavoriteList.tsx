@@ -12,10 +12,10 @@ function FavoriteList(props: { list: any, userId: number, toks: any[], onDeleteL
     };
     const handleSave = () => {
         props.onEditList(selectedList);
-    }
+    };
     const handleDelete = () => {
         props.onDeleteList(selectedList);
-    }
+    };
     useEffect(() => {
         setSelectedList({ ...props.list });
     }, [props.list]);
