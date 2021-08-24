@@ -9,8 +9,8 @@ import { User, Tiktok, AuthorStats } from "../types/tok.interface";
 import { createURL } from '../utils/url';
 import TokBrowser from './TokBrowser';
 import { intToString } from '../utils/number';
-import ExpandMoreIcon from '@material-ui/icons/ArrowDownward';
-import ExpandLessIcon from '@material-ui/icons/ArrowBack';
+import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
+import ExpandLessIcon from '@material-ui/icons/ExpandLess';
 
 function ToksByUser(props: { user?: User, stats?: AuthorStats }) {
     const params: any = useParams();
