@@ -71,11 +71,9 @@ function Tok(props: { showHeader?: boolean, onMoreInfoSelected: (authorInfo: Aut
 				subheader=""
 			/> : ''
 			}
-			<CardMedia
-				className="auto-height"
-				image={tiktok.video.cover}
-				title=""
-			/>
+			<video className="auto-height" poster={tiktok.video.cover} controls>
+				<source src={streamTok(tiktok.id)} type="video/mp4" />
+			</video>
 			<CardContent className="flex-1">
 				<Typography variant="body2" color="textSecondary" component="p">
 					{tiktok.desc}
@@ -108,6 +106,10 @@ function Tok(props: { showHeader?: boolean, onMoreInfoSelected: (authorInfo: Aut
 
 const addFavorite = (id: string) => {
 	console.log('add favorite');
+}
+
+function streamTok(id: string) {
+	return createURL(RouteName.DOWNLOAD_BY_ID, [id]);
 }
 
 async function downloadTok(id: string) {
