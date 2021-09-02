@@ -8,6 +8,7 @@ function TokBrowser(props: { emptyMsg?: string, onUserSelected?: Function, showH
     const [filteredToks, setFilteredToks] = useState<Tiktok[]>(props.toks);
     const [searchTerm, setSearchTerm] = useState<string>('');
     const [toksPerRow, setToksPerRow] = useState<number>(props.toksPerRow || 2);
+    const [playingTok, setPlayingTok] = useState<number>();
     const handleSearch = (event: React.ChangeEvent<HTMLInputElement>) => {
         setSearchTerm(event?.target.value);
     }
@@ -16,6 +17,24 @@ function TokBrowser(props: { emptyMsg?: string, onUserSelected?: Function, showH
             return toks;
         }
         return toks.filter(tok => tok.desc.toLowerCase().indexOf(term.toLowerCase()) !== -1);
+    };
+    const onVideoPlaying = (tiktokId: number) => {
+        setPlayingTok(tiktokId);
+    }
+    const getTokBreakdown = (toksPerRow: number, filteredToks: Tiktok[], userSelected?: Function, showHeader?: boolean) => {
+        const onMoreInfoSelected = (userInfo: AuthorInfo) => {
+            userSelected && userSelected(userInfo);
+        }
+        const tokRows = [];
+        for (let x = 0; x < filteredToks.length; x += toksPerRow) {
+            const toks = [];
+            for (let y = 0; y < toksPerRow; y++) {
+                const location = x + y;
+                toks.push(<Tok key={location} onVideoPlay={onVideoPlaying} showHeader={showHeader} tiktok={filteredToks[location]} onMoreInfoSelected={onMoreInfoSelected}></Tok>)
+            }
+            tokRows.push(<div key={x} className="flex flex-1 flex-justify-center">{toks}</div>);
+        }
+        return tokRows;
     }
     useEffect(() => {
         setFilteredToks(searchToks(searchTerm, props.toks));
@@ -43,22 +62,6 @@ function TokBrowser(props: { emptyMsg?: string, onUserSelected?: Function, showH
             </div>
         </div>
     );
-}
-
-const getTokBreakdown = (toksPerRow: number, filteredToks: Tiktok[], userSelected?: Function, showHeader?: boolean) => {
-    const onMoreInfoSelected = (userInfo: AuthorInfo) => {
-        userSelected && userSelected(userInfo);
-    }
-    const tokRows = [];
-    for (let x = 0; x < filteredToks.length; x += toksPerRow) {
-        const toks = [];
-        for (let y = 0; y < toksPerRow; y++) {
-            const location = x + y;
-            toks.push(<Tok key={location} showHeader={showHeader} tiktok={filteredToks[location]} onMoreInfoSelected={onMoreInfoSelected}></Tok>)
-        }
-        tokRows.push(<div key={x} className="flex flex-1 flex-justify-center">{toks}</div>);
-    }
-    return tokRows;
 }
 
 export default TokBrowser;

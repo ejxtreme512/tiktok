@@ -11,7 +11,7 @@ import { createURL } from '../utils/url';
 import { RouteName } from '../constants/routes';
 import { intToString } from '../utils/number';
 
-interface TokProps { 
+interface TokProps {
 	showHeader?: boolean;
 	onMoreInfoSelected: (authorInfo: AuthorInfo) => void;
 	tiktok: Tiktok;
@@ -67,7 +67,7 @@ function Tok(props: TokProps) {
 			</DialogActions>
 		</Dialog>
 	);
-	const onVideoPlay = () =>{
+	const onVideoPlay = () => {
 		setPlayButton(false);
 		if (props.onVideoPlay) {
 			props.onVideoPlay(tiktok.id);
@@ -84,7 +84,7 @@ function Tok(props: TokProps) {
 				subheader=""
 			/> : ''
 			}
-			<video className="max-size" onPlay={onVideoPlay} poster={tiktok.video.cover} controls preload="none">
+			<video onPlay={onVideoPlay} poster={tiktok.video.cover} controls preload="none">
 				<source src={streamTok(tiktok.id)} type="video/mp4" />
 			</video>
 			<CardContent className="flex-1">
