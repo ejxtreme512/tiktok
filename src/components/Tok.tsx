@@ -11,23 +11,32 @@ import { createURL } from '../utils/url';
 import { RouteName } from '../constants/routes';
 import { intToString } from '../utils/number';
 
-function Tok(props: { onMoreInfoSelected: (authorInfo: AuthorInfo) => void, tiktok: Tiktok }) {
-	const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
+function Tok(props: { showHeader?: boolean, onMoreInfoSelected: (authorInfo: AuthorInfo) => void, tiktok: Tiktok }) {
+	const [ActionEl, setActionEl] = useState<null | HTMLElement>(null);
+	const [FavoriteEl, setFavoriteEl] = useState<null | HTMLElement>(null);
 	const [expanded, setExpanded] = useState<boolean>(false);
 	const [openShareDialog, setOpenShareDialog] = useState<boolean>(false);
 	const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
-		setAnchorEl(event.currentTarget);
+		setActionEl(event.currentTarget);
 	};
+	const handleFavorite = (event: React.MouseEvent<HTMLButtonElement>) => {
+		setFavoriteEl(event.currentTarget);
+	}
 	const handleViewProfile = () => {
 		props.onMoreInfoSelected({ user: props.tiktok.author, stats: props.tiktok.authorStats });
 		handleClose();
 	}
 	const handleClose = () => {
-		setAnchorEl(null)
+		setActionEl(null);
 	}
-	const menu = (<Menu id="tok-more-info-menu" anchorEl={anchorEl} keepMounted open={Boolean(anchorEl)} onClose={handleClose}>
+	const handleFavoriteClose = () => {
+		setFavoriteEl(null);
+	}
+	const actionMenu = (<Menu id="tok-more-info-menu" anchorEl={ActionEl} keepMounted open={Boolean(ActionEl)} onClose={handleClose}>
 		<MenuItem onClick={handleViewProfile}>View Profile</MenuItem>
 	</Menu>);
+	const favoriteMenu = <Menu anchorEl={FavoriteEl} open={Boolean(FavoriteEl)} onClose={handleFavoriteClose}>
+	</Menu>;
 	const tiktok = props.tiktok;
 	if (!tiktok) {
 		return <div></div>;
@@ -47,19 +56,21 @@ function Tok(props: { onMoreInfoSelected: (authorInfo: AuthorInfo) => void, tikt
 			<DialogActions>
 				<Button onClick={handleDialogClose} color="primary">
 					Close
-  				</Button>
+				</Button>
 			</DialogActions>
 		</Dialog>
 	);
 	const tokInfo = <div className="tok">
 		<Card className="flex-1 flex-column" variant="outlined">
-			{menu}
-			<CardHeader
+			{actionMenu}
+			{favoriteMenu}
+			{props.showHeader !== false ? <CardHeader
 				avatar={<Avatar aria-label="recipe" src={tiktok.author.avatarThumb}></Avatar>}
 				action={<IconButton aria-label="settings" onClick={handleClick}><MoreVert /></IconButton>}
 				title={tiktok.author.nickname}
 				subheader=""
-			/>
+			/> : ''
+			}
 			<CardMedia
 				className="auto-height"
 				image={tiktok.video.cover}
@@ -78,7 +89,7 @@ function Tok(props: { onMoreInfoSelected: (authorInfo: AuthorInfo) => void, tikt
 				<IconButton aria-label="Share link" onClick={() => setOpenShareDialog(true)}>
 					<Share />
 				</IconButton>
-				<IconButton aria-label="Add to favorites" onClick={() => { addFavorite(tiktok.id) }}>
+				<IconButton aria-label="Add to favorites" onClick={handleFavorite}>
 					<Favorite />
 				</IconButton>
 				<div className="flex-1"></div>

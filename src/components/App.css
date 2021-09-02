@@ -42,6 +42,10 @@
   min-width: 0;
 }
 
+.flex-row-reverse {
+  flex-direction: row-reverse;
+}
+
 .flex-1 {
   flex: 1;
 }
@@ -105,6 +109,10 @@
 
 .pad-5 {
   padding: 5px;
+}
+
+.pad-2 {
+  padding: 2px;
 }
 
 .auto-height {
