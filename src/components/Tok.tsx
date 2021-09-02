@@ -11,7 +11,14 @@ import { createURL } from '../utils/url';
 import { RouteName } from '../constants/routes';
 import { intToString } from '../utils/number';
 
-function Tok(props: { showHeader?: boolean, onMoreInfoSelected: (authorInfo: AuthorInfo) => void, tiktok: Tiktok }) {
+interface TokProps { 
+	showHeader?: boolean;
+	onMoreInfoSelected: (authorInfo: AuthorInfo) => void;
+	tiktok: Tiktok;
+	onVideoPlay?: Function
+}
+function Tok(props: TokProps) {
+	const [playButton, setPlayButton] = useState<boolean>(true);
 	const [ActionEl, setActionEl] = useState<null | HTMLElement>(null);
 	const [FavoriteEl, setFavoriteEl] = useState<null | HTMLElement>(null);
 	const [expanded, setExpanded] = useState<boolean>(false);
@@ -60,6 +67,12 @@ function Tok(props: { showHeader?: boolean, onMoreInfoSelected: (authorInfo: Aut
 			</DialogActions>
 		</Dialog>
 	);
+	const onVideoPlay = () =>{
+		setPlayButton(false);
+		if (props.onVideoPlay) {
+			props.onVideoPlay(tiktok.id);
+		}
+	}
 	const tokInfo = <div className="tok">
 		<Card className="flex-1 flex-column" variant="outlined">
 			{actionMenu}
@@ -71,7 +84,7 @@ function Tok(props: { showHeader?: boolean, onMoreInfoSelected: (authorInfo: Aut
 				subheader=""
 			/> : ''
 			}
-			<video className="auto-height" poster={tiktok.video.cover} controls>
+			<video className="max-size" onPlay={onVideoPlay} poster={tiktok.video.cover} controls preload="none">
 				<source src={streamTok(tiktok.id)} type="video/mp4" />
 			</video>
 			<CardContent className="flex-1">
