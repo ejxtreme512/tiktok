@@ -72,7 +72,7 @@ function FavoriteToks(props: { favorites: any[], userId: number, onDeleteList: F
                 </div>
                 {props.favorites ? favoriteLists : noFavorites}
             </div>
-            {selectedList ? <FavoriteList list={selectedList} userId={props.userId} onDeleteList={handleDelete} onEditList={props.onEditList} toks={[]}></FavoriteList> : <h5>Select a list to view Tiktoks</h5>}
+            {selectedList ? <FavoriteList list={selectedList} userId={props.userId} onDeleteList={handleDelete} onEditList={props.onEditList} toks={toks}></FavoriteList> : <h5>Select a list to view Tiktoks</h5>}
         </div>
     );
 }
