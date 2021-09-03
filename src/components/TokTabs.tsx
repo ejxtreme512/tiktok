@@ -8,7 +8,7 @@ import { Divider } from '@material-ui/core';
 import { AuthorInfo, AuthorStats, Favorite, User } from "../types/tok.interface";
 import { createURL } from "../utils/url";
 import { RouteName } from "../constants/routes";
-import FavoriteToks from "./Favorites";
+import FavoriteToks from "./FavoriteToks";
 
 function TokTabs() {
     const allTabs = ['/trending', '/users', '/favorites'];

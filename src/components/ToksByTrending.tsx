@@ -18,7 +18,8 @@ function ToksByTrending(props: { onUserSelected: Function}) {
         fetch(url, { method: 'GET' })
             .then(resp => resp.json()
                 .then((res) => {
-                    setLoading(false); setToks(res)
+                    setLoading(false); 
+                    setToks(res);
                 }));
     }, [trendCount]);
     const loadingBar = <div className="flex flex-1 flex-align-center pad-5">
