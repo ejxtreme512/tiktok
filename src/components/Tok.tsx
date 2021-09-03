@@ -46,7 +46,7 @@ function Tok(props: TokProps) {
 		vidRef.current && vidRef.current.pause();
 		setPlaying(false);
 	}
-	const playVideo = () => { 
+	const playVideo = () => {
 		vidRef.current && vidRef.current.play();
 		setPlaying(true);
 	}
@@ -96,10 +96,6 @@ function Tok(props: TokProps) {
 			props.onVideoPlay(tiktok.id);
 		}
 	}
-	const onVideoPause = () => {
-		console.log('pause!');
-		// setPlaying(false);
-	}
 	const tokInfo = <div className="tok">
 		<Card className="flex-1 flex-column" variant="outlined">
 			{actionMenu}
@@ -111,7 +107,7 @@ function Tok(props: TokProps) {
 				subheader=""
 			/> : ''
 			}
-			<video ref={vidRef} onClick={handleVideoClick} className="auto-height video-player" onPlay={onVideoPlay} onPause={onVideoPause} poster={tiktok.video.cover} controls preload="none">
+			<video ref={vidRef} onClick={handleVideoClick} className="auto-height video-player" onPlay={onVideoPlay} poster={tiktok.video.cover} controls preload="none">
 				<source src={streamTok(tiktok.id)} type="video/mp4" />
 			</video>
 			<CardContent className="flex-1">
