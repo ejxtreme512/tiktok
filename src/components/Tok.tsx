@@ -20,8 +20,8 @@ interface TokProps {
 }
 function Tok(props: TokProps) {
 	const vidRef = useRef<HTMLVideoElement>(null);
+	const [firstPlay, setFirstPlay] = useState<boolean>(true);
 	const [isPlaying, setPlaying] = useState<boolean>(false);
-	const [playButton, setPlayButton] = useState<boolean>(true);
 	const [ActionEl, setActionEl] = useState<null | HTMLElement>(null);
 	const [FavoriteEl, setFavoriteEl] = useState<null | HTMLElement>(null);
 	const [expanded, setExpanded] = useState<boolean>(false);
@@ -42,11 +42,24 @@ function Tok(props: TokProps) {
 	const handleFavoriteClose = () => {
 		setFavoriteEl(null);
 	}
+	const pauseVideo = () => {
+		vidRef.current && vidRef.current.pause();
+		setPlaying(false);
+	}
+	const playVideo = () => { 
+		vidRef.current && vidRef.current.play();
+		setPlaying(true);
+	}
+	const handleVideoClick = () => {
+		if (!isPlaying && firstPlay) {
+			playVideo();
+			setFirstPlay(false);
+		}
+	}
 
 	useEffect(() => {
 		if (isPlaying && props.playingTokId !== tiktok.id) {
-			vidRef.current && vidRef.current.pause();
-			setPlaying(false);
+			pauseVideo();
 		}
 	}, [props.playingTokId]);
 
@@ -78,11 +91,14 @@ function Tok(props: TokProps) {
 		</Dialog>
 	);
 	const onVideoPlay = () => {
-		setPlayButton(false);
 		setPlaying(true);
 		if (props.onVideoPlay) {
 			props.onVideoPlay(tiktok.id);
 		}
+	}
+	const onVideoPause = () => {
+		console.log('pause!');
+		// setPlaying(false);
 	}
 	const tokInfo = <div className="tok">
 		<Card className="flex-1 flex-column" variant="outlined">
@@ -95,7 +111,7 @@ function Tok(props: TokProps) {
 				subheader=""
 			/> : ''
 			}
-			<video ref={vidRef} className="auto-height" onPlay={onVideoPlay} poster={tiktok.video.cover} controls preload="none">
+			<video ref={vidRef} onClick={handleVideoClick} className="auto-height video-player" onPlay={onVideoPlay} onPause={onVideoPause} poster={tiktok.video.cover} controls preload="none">
 				<source src={streamTok(tiktok.id)} type="video/mp4" />
 			</video>
 			<CardContent className="flex-1">
