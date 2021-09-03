@@ -1,5 +1,5 @@
 import { Badge, Button, CardActions, CardContent, CardHeader, CardMedia, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Menu, MenuItem, Typography } from '@material-ui/core';
-import React, { useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 
 import "./Tok.css"
 import Card from '@material-ui/core/Card';
@@ -15,9 +15,12 @@ interface TokProps {
 	showHeader?: boolean;
 	onMoreInfoSelected: (authorInfo: AuthorInfo) => void;
 	tiktok: Tiktok;
-	onVideoPlay?: Function
+	onVideoPlay?: Function;
+	playingTokId: string;
 }
 function Tok(props: TokProps) {
+	const vidRef = useRef<HTMLVideoElement>(null);
+	const [isPlaying, setPlaying] = useState<boolean>(false);
 	const [playButton, setPlayButton] = useState<boolean>(true);
 	const [ActionEl, setActionEl] = useState<null | HTMLElement>(null);
 	const [FavoriteEl, setFavoriteEl] = useState<null | HTMLElement>(null);
@@ -39,19 +42,26 @@ function Tok(props: TokProps) {
 	const handleFavoriteClose = () => {
 		setFavoriteEl(null);
 	}
-	const actionMenu = (<Menu id="tok-more-info-menu" anchorEl={ActionEl} keepMounted open={Boolean(ActionEl)} onClose={handleClose}>
-		<MenuItem onClick={handleViewProfile}>View Profile</MenuItem>
-	</Menu>);
-	const favoriteMenu = <Menu anchorEl={FavoriteEl} open={Boolean(FavoriteEl)} onClose={handleFavoriteClose}>
-	</Menu>;
+
+	useEffect(() => {
+		if (isPlaying && props.playingTokId !== tiktok.id) {
+			vidRef.current && vidRef.current.pause();
+			setPlaying(false);
+		}
+	}, [props.playingTokId]);
+
 	const tiktok = props.tiktok;
 	if (!tiktok) {
 		return <div></div>;
 	}
+	const actionMenu = (<Menu id="tok-more-info-menu" anchorEl={ActionEl} keepMounted open={Boolean(ActionEl)} onClose={handleClose}>
+		<MenuItem onClick={handleViewProfile}>View Profile</MenuItem>
+	</Menu>);
+	const favoriteMenu = (<Menu anchorEl={FavoriteEl} open={Boolean(FavoriteEl)} onClose={handleFavoriteClose}>
+	</Menu>);
 	const handleDialogClose = () => {
 		setOpenShareDialog(false);
 	}
-
 	const shareDialog = (
 		<Dialog open={openShareDialog} onClose={handleDialogClose} aria-labelledby="Share Dialog" maxWidth={"md"}>
 			<DialogTitle>Share</DialogTitle>
@@ -69,6 +79,7 @@ function Tok(props: TokProps) {
 	);
 	const onVideoPlay = () => {
 		setPlayButton(false);
+		setPlaying(true);
 		if (props.onVideoPlay) {
 			props.onVideoPlay(tiktok.id);
 		}
@@ -84,7 +95,7 @@ function Tok(props: TokProps) {
 				subheader=""
 			/> : ''
 			}
-			<video onPlay={onVideoPlay} poster={tiktok.video.cover} controls preload="none">
+			<video ref={vidRef} className="auto-height" onPlay={onVideoPlay} poster={tiktok.video.cover} controls preload="none">
 				<source src={streamTok(tiktok.id)} type="video/mp4" />
 			</video>
 			<CardContent className="flex-1">
