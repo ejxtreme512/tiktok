@@ -8,7 +8,7 @@ function TokBrowser(props: { emptyMsg?: string, onUserSelected?: Function, showH
     const [filteredToks, setFilteredToks] = useState<Tiktok[]>(props.toks);
     const [searchTerm, setSearchTerm] = useState<string>('');
     const [toksPerRow, setToksPerRow] = useState<number>(props.toksPerRow || 2);
-    const [playingTok, setPlayingTok] = useState<number>();
+    const [playingTokId, setPlayingTok] = useState<string>('');
     const handleSearch = (event: React.ChangeEvent<HTMLInputElement>) => {
         setSearchTerm(event?.target.value);
     }
@@ -18,7 +18,7 @@ function TokBrowser(props: { emptyMsg?: string, onUserSelected?: Function, showH
         }
         return toks.filter(tok => tok.desc.toLowerCase().indexOf(term.toLowerCase()) !== -1);
     };
-    const onVideoPlaying = (tiktokId: number) => {
+    const onVideoPlaying = (tiktokId: string) => {
         setPlayingTok(tiktokId);
     }
     const getTokBreakdown = (toksPerRow: number, filteredToks: Tiktok[], userSelected?: Function, showHeader?: boolean) => {
@@ -30,7 +30,7 @@ function TokBrowser(props: { emptyMsg?: string, onUserSelected?: Function, showH
             const toks = [];
             for (let y = 0; y < toksPerRow; y++) {
                 const location = x + y;
-                toks.push(<Tok key={location} onVideoPlay={onVideoPlaying} showHeader={showHeader} tiktok={filteredToks[location]} onMoreInfoSelected={onMoreInfoSelected}></Tok>)
+                toks.push(<Tok key={location} playingTokId={playingTokId} onVideoPlay={onVideoPlaying} showHeader={showHeader} tiktok={filteredToks[location]} onMoreInfoSelected={onMoreInfoSelected}></Tok>)
             }
             tokRows.push(<div key={x} className="flex flex-1 flex-justify-center">{toks}</div>);
         }
