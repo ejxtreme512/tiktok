@@ -1,5 +1,5 @@
 import { Badge, Button, CardActions, CardContent, CardHeader, CardMedia, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Menu, MenuItem, Typography } from '@material-ui/core';
-import React, { useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 
 import "./Tok.css"
 import Card from '@material-ui/core/Card';
@@ -11,7 +11,17 @@ import { createURL } from '../utils/url';
 import { RouteName } from '../constants/routes';
 import { intToString } from '../utils/number';
 
-function Tok(props: { showHeader?: boolean, onMoreInfoSelected: (authorInfo: AuthorInfo) => void, tiktok: Tiktok }) {
+interface TokProps {
+	showHeader?: boolean;
+	onMoreInfoSelected: (authorInfo: AuthorInfo) => void;
+	tiktok: Tiktok;
+	onVideoPlay?: Function;
+	playingTokId: string;
+}
+function Tok(props: TokProps) {
+	const vidRef = useRef<HTMLVideoElement>(null);
+	const [firstPlay, setFirstPlay] = useState<boolean>(true);
+	const [isPlaying, setPlaying] = useState<boolean>(false);
 	const [ActionEl, setActionEl] = useState<null | HTMLElement>(null);
 	const [FavoriteEl, setFavoriteEl] = useState<null | HTMLElement>(null);
 	const [expanded, setExpanded] = useState<boolean>(false);
@@ -32,19 +42,39 @@ function Tok(props: { showHeader?: boolean, onMoreInfoSelected: (authorInfo: Aut
 	const handleFavoriteClose = () => {
 		setFavoriteEl(null);
 	}
-	const actionMenu = (<Menu id="tok-more-info-menu" anchorEl={ActionEl} keepMounted open={Boolean(ActionEl)} onClose={handleClose}>
-		<MenuItem onClick={handleViewProfile}>View Profile</MenuItem>
-	</Menu>);
-	const favoriteMenu = <Menu anchorEl={FavoriteEl} open={Boolean(FavoriteEl)} onClose={handleFavoriteClose}>
-	</Menu>;
+	const pauseVideo = () => {
+		vidRef.current && vidRef.current.pause();
+		setPlaying(false);
+	}
+	const playVideo = () => {
+		vidRef.current && vidRef.current.play();
+		setPlaying(true);
+	}
+	const handleVideoClick = () => {
+		if (!isPlaying && firstPlay) {
+			playVideo();
+			setFirstPlay(false);
+		}
+	}
+
+	useEffect(() => {
+		if (isPlaying && props.playingTokId !== tiktok.id) {
+			pauseVideo();
+		}
+	}, [props.playingTokId]);
+
 	const tiktok = props.tiktok;
 	if (!tiktok) {
 		return <div></div>;
 	}
+	const actionMenu = (<Menu id="tok-more-info-menu" anchorEl={ActionEl} keepMounted open={Boolean(ActionEl)} onClose={handleClose}>
+		<MenuItem onClick={handleViewProfile}>View Profile</MenuItem>
+	</Menu>);
+	const favoriteMenu = (<Menu anchorEl={FavoriteEl} open={Boolean(FavoriteEl)} onClose={handleFavoriteClose}>
+	</Menu>);
 	const handleDialogClose = () => {
 		setOpenShareDialog(false);
 	}
-
 	const shareDialog = (
 		<Dialog open={openShareDialog} onClose={handleDialogClose} aria-labelledby="Share Dialog" maxWidth={"md"}>
 			<DialogTitle>Share</DialogTitle>
@@ -60,6 +90,12 @@ function Tok(props: { showHeader?: boolean, onMoreInfoSelected: (authorInfo: Aut
 			</DialogActions>
 		</Dialog>
 	);
+	const onVideoPlay = () => {
+		setPlaying(true);
+		if (props.onVideoPlay) {
+			props.onVideoPlay(tiktok.id);
+		}
+	}
 	const tokInfo = <div className="tok">
 		<Card className="flex-1 flex-column" variant="outlined">
 			{actionMenu}
@@ -71,11 +107,9 @@ function Tok(props: { showHeader?: boolean, onMoreInfoSelected: (authorInfo: Aut
 				subheader=""
 			/> : ''
 			}
-			<CardMedia
-				className="auto-height"
-				image={tiktok.video.cover}
-				title=""
-			/>
+			<video ref={vidRef} onClick={handleVideoClick} className="auto-height video-player" onPlay={onVideoPlay} poster={tiktok.video.cover} controls preload="none">
+				<source src={streamTok(tiktok.id)} type="video/mp4" />
+			</video>
 			<CardContent className="flex-1">
 				<Typography variant="body2" color="textSecondary" component="p">
 					{tiktok.desc}
@@ -108,6 +142,10 @@ function Tok(props: { showHeader?: boolean, onMoreInfoSelected: (authorInfo: Aut
 
 const addFavorite = (id: string) => {
 	console.log('add favorite');
+}
+
+function streamTok(id: string) {
+	return createURL(RouteName.DOWNLOAD_BY_ID, [id]);
 }
 
 async function downloadTok(id: string) {
